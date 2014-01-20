@@ -1,0 +1,54 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[finnish]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[a4paper,right=3cm,left=3cm,vmargin=3cm]{geometry}
+\linespread{1.6}
+\usepackage[osf,sc]{mathpazo}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\clubpenalty=10000
+\widowpenalty=10000
+
+\author{Leo Leppänen}
+\title{NLLR \\ Määrittelydokumentti}
+
+\begin{document}
+
+\maketitle
+
+\section{Ongelman määrittely}
+Tämän harjoitustyön tarkoitus on tuottaa Java-ohjelma, joka kykenee ajoittamaan automaattisesti sille syötettyjä Reuters-uutispalvelun uutisia erikseen määriteltyihin aikaikkunoihin.
+
+Ajoitusmetodina toimii ajoitettavan dokumentin temporaalisen kielimallin ja käytettävissä olevan referenssikorpuksen aikapartitioiden kielimallien tilastollinen vertailu, joka pyrkii löytämään referenssikorpuksen aikapartitioiden joukosta sen partition, jonka temporaalinen kielimalli vastaa parhaiten dokumentin temporaalista kielimallia.
+
+Referenssikorpuksena toimii eräs Reuters-korpuksen\footnote{http://about.reuters.com/researchandstandards/corpus/} versio.
+
+\section{Käytetettävät algoritmit}
+Harjoitustyössä toteutetaan ensisijaisesti algoritmi nimeltä NLLR, eli Normalized Logarithmic Likelihood Ratio. 
+NLLR on johdettu tavallisesta logaritmisesta uskottavuusosamäärästä\footnote{http://fi.wikipedia.org/wiki/Uskottavuusosamäärä}. NLLR:n tässä työssä käytetty versio, sekä tämän työn inspiraationlähde muutoinkin on de Jong et al. tutkimus Temporal Language Models for the
+Disclosure of Historical Text\footnote{http://doc.utwente.nl/66448/1/db-utwente-433BCEA2.pdf}.
+
+En ole löytänyt vielä selaamastani tutkimuskirjallisuudesta $ \mathcal{O} $-analyysiä NLLR-algoritmin toiminnasta. 
+Tarkoitus on siis toteuttaa algoritmi niin nopeana kuin mahdollista ja sen jälkeen analysoida sen aika- ja tilavaativuuksia.
+
+Lisäksi harjoitustyössä käytetään ns. \emph{tf-idf}\footnote{http://en.wikipedia.org/wiki/Tf-idf} tilastomenetelmää määrittämään kutakin dokumenttia parhaiten edustavat termit, joille yllämainittua NLLR-algoritmia sovelletaan.
+
+Tf-idfn erään viritellyn implementaation aikavaativuudeksi mainitaan $\mathcal{O}(B \cdot V)$ , missä $B$ on keskimääräinen todennäköisyys tarkasteltavan termin esiintymiselle muissa dokumenteissa ja $V$ on sanaston koko. Tämä implementaatio on kuitenkin ilmeisesti varsin haastava ja onkin mahdollista että tässä projektissa tuotettu implementaatio jää aikavaativuuteen $\mathcal{O}(V \cdot D)$, missä $V$ on uniikkien sanojen määrä ja $D$ on dokumenttien määrä.
+
+
+\section{Työn oheistuotteet}
+Harjoitustyön oheistuotteina syntyy python-skripti joka vähintään muuntaa Reuters-korpuksen sgml-muotoisista tiedostoista Java-ohjelman käsiteltävissä oleviin csv-tiedostoihin. Lisäksi joko ym. python-skripti (käyttäen Natural Language Toolkittiä\footnote{http://nltk.org/}) tai tuotettava Java-ohjelma (käyttäen todennäköisesti Stanford NLP ohjelmistoa\footnote{http://www-nlp.stanford.edu/software/index.shtml}) suorittaa Reuters-korpuksen sisällön typistämisen (Eng. \textit{stemming}).
+
+Nämä oheistuotteet eivät ole osa palautettavaa työtä, eikä niitä ole tarkoitettu arvosteltaviksi.
+
+\end{document}
