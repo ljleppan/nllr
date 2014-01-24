@@ -37,7 +37,7 @@ public class Corpus {
      * Create an empty corpus.
      */
     public Corpus(){
-        this(new GregorianCalendar(), new GregorianCalendar(), new ArrayList<Document>());
+        this(null, null, new ArrayList<Document>());
     }
     
     /**
@@ -45,8 +45,10 @@ public class Corpus {
      * @param document  The document to be added.
      */
     public void add(Document document){
-        documents.add(document);
-        refreshStats();
+        if (document != null){
+            documents.add(document);
+            refreshStats();
+        }
     }
     
     /**
