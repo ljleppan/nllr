@@ -58,7 +58,12 @@ public class Document {
      * @return      The frequency of the token.
      */
     public int getFrequency(String token){
-        return tokenAmounts.get(token);
+        if (tokenAmounts.containsKey(token)){
+            return tokenAmounts.get(token);
+        } else {
+            return 0;
+        }
+        
     }
     
     /**
