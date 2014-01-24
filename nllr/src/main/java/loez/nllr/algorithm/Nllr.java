@@ -4,7 +4,7 @@ import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 
 /**
- *
+ * An NLLR-calculator.
  * @author ljleppan@cs
  */
 public class Nllr {
