@@ -70,4 +70,13 @@ public class CorpusTest extends TestCase {
         assertTrue("Removing a document removes the document",
                 corpus.get(1) == null);
     }
+    
+    public void testAdd(){
+        corpus.add(null);
+        assertTrue("Trying to add a null document does nothing",
+                corpus.get(2) == null);
+        corpus.add(docB);
+        assertTrue("Adding a document adds the document",
+                corpus.get(2) == docB);
+    }
 }
