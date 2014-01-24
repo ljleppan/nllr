@@ -92,26 +92,33 @@ public class Corpus {
 
     private void refreshStats() {
         for (Document doc : documents){
-            
-            if (startDate != null && endDate != null && doc.getDate() != null){
-                if (getStartDate().after(doc.getDate())){
-                    startDate = doc.getDate();
-                } else if (getEndDate().before(doc.getDate())){
-                    endDate = doc.getDate();
-                }
-            }
+            refreshDates(doc);
 
-            for (String token : doc.getUniqueTokens()){
-                int docTokenAmount = doc.getFrequency(token);
-                
-                int amountNow = 0;
-                if (tokenFrequensies.containsKey(token)) {
-                    amountNow = tokenFrequensies.get(token);
-                } 
-                
-                tokenFrequensies.put(token, amountNow + docTokenAmount);
-                
-                totalTokens += docTokenAmount;
+            for (String token : doc.getUniqueTokens()){     
+                refreshTokens(doc, token);
+            }
+        }
+    }
+
+    private void refreshTokens(Document doc, String token) {
+        int docTokenAmount = doc.getFrequency(token);
+        
+        int amountNow = 0;
+        if (tokenFrequensies.containsKey(token)) {
+            amountNow = tokenFrequensies.get(token);
+        }
+        
+        tokenFrequensies.put(token, amountNow + docTokenAmount);
+        
+        totalTokens += docTokenAmount;
+    }
+
+    private void refreshDates(Document doc) {
+        if (startDate != null && endDate != null && doc.getDate() != null){
+            if (getStartDate().after(doc.getDate())){
+                startDate = doc.getDate();
+            } else if (getEndDate().before(doc.getDate())){
+                endDate = doc.getDate();
             }
         }
     }
