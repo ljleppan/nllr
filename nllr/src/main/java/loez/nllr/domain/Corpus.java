@@ -57,7 +57,7 @@ public class Corpus {
      * @return      The document with the specified index.
      */
     public Document get(int index){
-        if (documents.size() < index){
+        if (documents.size() > index){
             return documents.get(index);
         } else {
             return null;
@@ -93,12 +93,14 @@ public class Corpus {
     private void refreshStats() {
         for (Document doc : documents){
             
-            if (getStartDate().after(doc.getDate())){
-                startDate = doc.getDate();
-            } else if (getEndDate().before(doc.getDate())){
-                endDate = doc.getDate();
+            if (startDate != null && endDate != null && doc.getDate() != null){
+                if (getStartDate().after(doc.getDate())){
+                    startDate = doc.getDate();
+                } else if (getEndDate().before(doc.getDate())){
+                    endDate = doc.getDate();
+                }
             }
-            
+
             for (String token : doc.getUniqueTokens()){
                 int docTokenAmount = doc.getFrequency(token);
                 
