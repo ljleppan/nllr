@@ -1,6 +1,6 @@
 package loez.nllr.domain;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class Document {
     private String body;
-    private Date date;
+    private Calendar date;
     private HashMap<String, Integer> tokenAmounts;
     private int numTokens;
     
@@ -18,7 +18,7 @@ public class Document {
      * @param date  Date of document's creation.
      * @param body  The text of the document.
      */
-    public Document(Date date, String body){
+    public Document(Calendar date, String body){
         this.body = body;
         this.date = date;
         countTokenFrequencies();
@@ -77,7 +77,7 @@ public class Document {
      * Get the date of creation of the document.
      * @return The date of creation.
      */
-    public Date getDate(){
+    public Calendar getDate(){
         return date;
     }
 }

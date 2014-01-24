@@ -1,7 +1,8 @@
 package loez.nllr.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -10,8 +11,8 @@ import java.util.HashMap;
  */
 public class Corpus {
     private ArrayList<Document> documents;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private int totalTokens;
     private HashMap<String, Integer> tokenFrequensies;
     
@@ -21,7 +22,7 @@ public class Corpus {
      * @param endDate   The latest date of creationg for the corpus documents.
      * @param documents The documents the corpus is comprised of.
      */
-    public Corpus(Date startDate, Date endDate, ArrayList<Document> documents){
+    public Corpus(Calendar startDate, Calendar endDate, ArrayList<Document> documents){
         this.startDate = startDate;
         this.endDate = endDate;
         this.documents = documents;
@@ -36,7 +37,7 @@ public class Corpus {
      * Create an empty corpus.
      */
     public Corpus(){
-        this(new Date(), new Date(), new ArrayList<Document>());
+        this(new GregorianCalendar(), new GregorianCalendar(), new ArrayList<Document>());
     }
     
     /**
@@ -86,9 +87,9 @@ public class Corpus {
     private void refreshStats() {
         for (Document doc : documents){
             
-            if (startDate.after(doc.getDate())){
+            if (getStartDate().after(doc.getDate())){
                 startDate = doc.getDate();
-            } else if (endDate.before(doc.getDate())){
+            } else if (getEndDate().before(doc.getDate())){
                 endDate = doc.getDate();
             }
             
@@ -105,5 +106,19 @@ public class Corpus {
                 totalTokens += docTokenAmount;
             }
         }
+    }
+
+    /**
+     * @return the startDate
+     */
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * @return the endDate
+     */
+    public Calendar getEndDate() {
+        return endDate;
     }
 }
