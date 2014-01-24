@@ -21,6 +21,10 @@ public class Document {
     public Document(Calendar date, String body){
         this.body = body;
         this.date = date;
+        
+        this.tokenAmounts = new HashMap<String, Integer>();
+        this.numTokens = 0;
+        
         countTokenFrequencies();
     }
     
