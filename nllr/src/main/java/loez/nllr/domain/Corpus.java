@@ -57,7 +57,12 @@ public class Corpus {
      * @return      The document with the specified index.
      */
     public Document get(int index){
-        return documents.get(index);
+        if (documents.size() < index){
+            return documents.get(index);
+        } else {
+            return null;
+        }
+        
     }
     
     /**
