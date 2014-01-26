@@ -46,7 +46,7 @@ public class Nllr {
      * @param document  The document.
      * @return          The probability of the token in the document.
      */
-    private float calculateTokenProbability(String token, Document document) {
+    public float calculateTokenProbability(String token, Document document) {
         float prob =  (float) document.getFrequency(token) / document.getTotalTokens();
         if (prob == 0){
             return 1 / Float.MAX_VALUE;
@@ -62,7 +62,7 @@ public class Nllr {
      * @param corpus    The corpus.
      * @return          The probability of the token in the corpus.
      */
-    private float calculateTokenProbability(String token, Corpus corpus) {
+    public float calculateTokenProbability(String token, Corpus corpus) {
         float prob = (float) corpus.getFrequency(token) / corpus.getTotalTokens();
         if (prob == 0){
             return 1 / Float.MAX_VALUE;
