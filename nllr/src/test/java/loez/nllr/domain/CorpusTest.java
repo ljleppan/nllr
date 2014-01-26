@@ -140,13 +140,17 @@ public class CorpusTest extends TestCase {
     
     public void testAddingDocumentsUpdatesTotalTokens(){
         int tokensBefore = corpus.getTotalTokens();
-        System.out.println(corpus.getTotalTokens());
         Document doc = new Document(null, "auto testo");
-        System.out.println(doc.getTotalTokens());
         corpus.add(doc);
-        System.out.println(corpus.getTotalTokens());
         assertTrue("Adding a document updates the total number of tokens correctly",
                 corpus.getTotalTokens() == tokensBefore + 2);
+    }
+    
+    public void testGetDocuments(){
+        assertTrue("getDocuments should return an arraylist",
+                corpus.getDocuments() instanceof ArrayList);
+        assertTrue("getDocuments should return ArrayList even when no documents were added",
+                new Corpus(null, null, null).getDocuments() instanceof ArrayList);
     }
     
     private boolean isSameDate(Calendar a, Calendar b){
