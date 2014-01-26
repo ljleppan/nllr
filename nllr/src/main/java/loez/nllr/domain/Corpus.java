@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @author ljleppan@cs
  */
 public class Corpus {
-    private ArrayList<Document> documents;
+    private ArrayList<Document> documents = new ArrayList<>();
     private Calendar startDate = new GregorianCalendar();
     private Calendar endDate = new GregorianCalendar();
     private int totalTokens;
@@ -29,8 +29,10 @@ public class Corpus {
         if (endDate != null){
             this.endDate = endDate;
         }
-        this.documents = documents;
-        
+        if (documents != null){
+            this.documents = documents;
+        }
+
         this.tokenFrequensies = new HashMap<String, Integer>();
         totalTokens = 0;
         
