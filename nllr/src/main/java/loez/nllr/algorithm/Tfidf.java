@@ -1,39 +1,36 @@
 package loez.nllr.algorithm;
 
+import java.util.ArrayList;
+import loez.nllr.domain.Corpus;
+import loez.nllr.domain.Document;
+
 /**
  *
  * @author ljleppan@cs
  */
 public class Tfidf {
-
-    /**
-     *
-     * @param numTokens
-     * @param numDocumentTotalTokens
-     * @return
-     */
-    public static int tf(int numTokens, int numDocumentTotalTokens){
-        return -1;
-    }
     
     /**
-     *
-     * @param numTokens
-     * @param numCorpusTotalTokens
-     * @return
+     * 
+     * @param token
+     * @param candidate
+     * @param reference
+     * @return 
      */
-    public static int idf(int numTokens, int numCorpusTotalTokens){
-        return -1;
-    }
-    
-    /**
-     *
-     * @param numTokens
-     * @param numDocumentTotalTokens
-     * @param numCorpusTotalTokens
-     * @return
-     */
-    public static int tfidf(int numTokens, int numDocumentTotalTokens, int numCorpusTotalTokens){
-        return -1;
+    public static double tfidf(String token, Document query, Corpus reference){
+        int tf = query.getFrequency(token);
+        
+        ArrayList<Document> referenceDocs = reference.getDocuments();
+        int totalDocs = referenceDocs.size();
+        
+        int docsContainingTerm = 0;
+        for (Document doc : referenceDocs){
+            if (doc.getFrequency(token) != 0){
+                docsContainingTerm++;
+            }
+        }
+        
+        double idf = Math.log( (double) totalDocs / docsContainingTerm);
+        return tf * idf;
     }
 }
