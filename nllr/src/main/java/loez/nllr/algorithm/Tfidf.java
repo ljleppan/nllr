@@ -12,6 +12,10 @@ public class Tfidf {
     
     /**
      * Calculates a tf-idf (text frequency - inverse document frequency) score.
+     * The tf-idf weights the frequency of a token based on how well it represents the text in question.
+     * F.ex. the word "the" is common in all texts, so its high tf is weighted down by the low idf.
+     * Similarly, the word "Abracadabra" is uncommon, so its low tf is weighted up by the high idf.
+     * 
      * Here, raw frequency is used for tf:
      *      tf = (#_of_instances_of_token_in_text) / (#_of_total_tokens_in_text)
      * The definition for idf is:
