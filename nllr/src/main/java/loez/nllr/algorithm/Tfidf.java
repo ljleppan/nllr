@@ -11,11 +11,17 @@ import loez.nllr.domain.Document;
 public class Tfidf {
     
     /**
-     * 
-     * @param token
-     * @param candidate
-     * @param reference
-     * @return 
+     * Calculates a tf-idf (text frequency - inverse document frequency) score.
+     * Here, raw frequency is used for tf:
+     *      tf = (#_of_instances_of_token_in_text) / (#_of_total_tokens_in_text)
+     * The definition for idf is:
+     *      idf = log ( #_of_texts / #_of_texts_containing_token )
+     * And tf-idf is finally calculated by:
+     *      tf-idf = tf * idf
+     * @param token     The token for which the tf-idf score is calculated
+     * @param candidate The text, as an instance of Document
+     * @param reference The document, as an instance of Corpus
+     * @return          A tf-idf score for the given parameters, as a double
      */
     public static double tfidf(String token, Document query, Corpus reference){
         int tf = query.getFrequency(token);
