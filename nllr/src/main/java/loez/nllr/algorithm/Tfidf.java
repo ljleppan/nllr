@@ -30,7 +30,19 @@ public class Tfidf {
     public static double tfidf(String token, Document query, Corpus reference){
         int tf = query.getFrequency(token);
         
-        ArrayList<Document> referenceDocs = reference.getDocuments();
+        ArrayList<Document> referenceDocs = reference.getDocuments();   
+        double idf = idf(referenceDocs, token);
+        
+        return tf * idf;
+    }
+
+    /**
+     * Calculate the idf (Inverse Document Frequency) of a token
+     * @param referenceDocs The corpus as a collection of documents
+     * @param token         The token     
+     * @return              idf score for the token and the corpus
+     */
+    public static double idf(ArrayList<Document> referenceDocs, String token) {
         int totalDocs = referenceDocs.size();
         
         int docsContainingTerm = 0;
@@ -40,7 +52,6 @@ public class Tfidf {
             }
         }
         
-        double idf = Math.log( (double) totalDocs / docsContainingTerm);
-        return tf * idf;
+        return Math.log( (double) totalDocs / docsContainingTerm);
     }
 }
