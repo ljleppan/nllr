@@ -9,6 +9,7 @@ import loez.nllr.domain.Document;
  */
 public class Nllr {
     private final Corpus corpus;
+    public static final double NONZERO = 0.0000001;
     
     /**
      * Creates a new NLLR-calculator for the specified corpus.
@@ -25,14 +26,14 @@ public class Nllr {
      * @param candidate The candidate corpus.
      * @return          The NLLR-score for the query document and the candidate corpus.
      */
-    public float calculateNllr(Document query, Corpus candidate){
-        float nllr = 0;
+    public double calculateNllr(Document query, Corpus candidate){
+        double nllr = 0;
         
         for (String uniqueToken : query.getUniqueTokens()){
             double tokenProbQuery = calculateTokenProbability(uniqueToken, query);
             double tokenProbCandidate = calculateTokenProbability(uniqueToken, candidate);
             double tokenProbCorpus = calculateTokenProbability(uniqueToken, corpus);
-            
+
             nllr += tokenProbQuery * Math.log(tokenProbCandidate / tokenProbCorpus);
         }
         
@@ -49,7 +50,7 @@ public class Nllr {
     public double calculateTokenProbability(String token, Document document) {
         double prob =  (double) document.getFrequency(token) / document.getTotalTokens();
         if (prob == 0){
-            return 1 / Double.MAX_VALUE;
+            return NONZERO;
         } else {
             return prob;
         }
@@ -65,7 +66,7 @@ public class Nllr {
     public double calculateTokenProbability(String token, Corpus corpus) {
         double prob = (double) corpus.getFrequency(token) / corpus.getTotalTokens();
         if (prob == 0){
-            return 1 / Double.MAX_VALUE;
+            return NONZERO;
         } else {
             return prob;
         }
