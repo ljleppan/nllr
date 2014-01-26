@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class Corpus {
     private ArrayList<Document> documents;
-    private Calendar startDate;
-    private Calendar endDate;
+    private Calendar startDate = new GregorianCalendar();
+    private Calendar endDate = new GregorianCalendar();
     private int totalTokens;
     private HashMap<String, Integer> tokenFrequensies;
     
@@ -23,8 +23,12 @@ public class Corpus {
      * @param documents The documents the corpus is comprised of.
      */
     public Corpus(Calendar startDate, Calendar endDate, ArrayList<Document> documents){
-        this.startDate = startDate;
-        this.endDate = endDate;
+        if (startDate != null){
+            this.startDate = startDate;
+        }
+        if (endDate != null){
+            this.endDate = endDate;
+        }
         this.documents = documents;
         
         this.tokenFrequensies = new HashMap<String, Integer>();
@@ -87,38 +91,42 @@ public class Corpus {
      * @return      The frequency of the token withing the corpus.
      */
     public int getFrequency(String token) {
-        return this.tokenFrequensies.get(token);
+        if (this.tokenFrequensies.containsKey(token)){
+            return this.tokenFrequensies.get(token);
+        }
+        return 0;
     }
 
     private void refreshStats() {
+        totalTokens = 0;
+        tokenFrequensies = new HashMap<String, Integer>();
+        
         for (Document doc : documents){
             refreshDates(doc);
-
-            for (String token : doc.getUniqueTokens()){     
-                refreshTokens(doc, token);
-            }
+            refreshFrequencies(doc);
+            totalTokens += doc.getTotalTokens();
         }
     }
 
-    private void refreshTokens(Document doc, String token) {
-        int docTokenAmount = doc.getFrequency(token);
-        
-        int amountNow = 0;
-        if (tokenFrequensies.containsKey(token)) {
-            amountNow = tokenFrequensies.get(token);
+    private void refreshFrequencies(Document doc) {
+        for (String token : doc.getUniqueTokens()){    
+            int docTokenAmount = doc.getFrequency(token);
+            
+            int amountNow = 0;
+            if (tokenFrequensies.containsKey(token)) {
+                amountNow = tokenFrequensies.get(token);
+            }
+
+            tokenFrequensies.put(token, amountNow + docTokenAmount);
         }
-        
-        tokenFrequensies.put(token, amountNow + docTokenAmount);
-        
-        totalTokens += docTokenAmount;
     }
 
     private void refreshDates(Document doc) {
-        if (startDate != null && endDate != null && doc.getDate() != null){
+        if (doc.getDate() != null){
             if (getStartDate().after(doc.getDate())){
-                startDate = doc.getDate();
+                startDate.setTime(doc.getDate().getTime());
             } else if (getEndDate().before(doc.getDate())){
-                endDate = doc.getDate();
+                endDate.setTime(doc.getDate().getTime());
             }
         }
     }
