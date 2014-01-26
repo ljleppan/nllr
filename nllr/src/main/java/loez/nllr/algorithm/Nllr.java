@@ -29,9 +29,9 @@ public class Nllr {
         float nllr = 0;
         
         for (String uniqueToken : query.getUniqueTokens()){
-            float tokenProbQuery = calculateTokenProbability(uniqueToken, query);
-            float tokenProbCandidate = calculateTokenProbability(uniqueToken, candidate);
-            float tokenProbCorpus = calculateTokenProbability(uniqueToken, corpus);
+            double tokenProbQuery = calculateTokenProbability(uniqueToken, query);
+            double tokenProbCandidate = calculateTokenProbability(uniqueToken, candidate);
+            double tokenProbCorpus = calculateTokenProbability(uniqueToken, corpus);
             
             nllr += tokenProbQuery * Math.log(tokenProbCandidate / tokenProbCorpus);
         }
@@ -46,10 +46,10 @@ public class Nllr {
      * @param document  The document.
      * @return          The probability of the token in the document.
      */
-    public float calculateTokenProbability(String token, Document document) {
-        float prob =  (float) document.getFrequency(token) / document.getTotalTokens();
+    public double calculateTokenProbability(String token, Document document) {
+        double prob =  (double) document.getFrequency(token) / document.getTotalTokens();
         if (prob == 0){
-            return 1 / Float.MAX_VALUE;
+            return 1 / Double.MAX_VALUE;
         } else {
             return prob;
         }
@@ -62,10 +62,10 @@ public class Nllr {
      * @param corpus    The corpus.
      * @return          The probability of the token in the corpus.
      */
-    public float calculateTokenProbability(String token, Corpus corpus) {
-        float prob = (float) corpus.getFrequency(token) / corpus.getTotalTokens();
+    public double calculateTokenProbability(String token, Corpus corpus) {
+        double prob = (double) corpus.getFrequency(token) / corpus.getTotalTokens();
         if (prob == 0){
-            return 1 / Float.MAX_VALUE;
+            return 1 / Double.MAX_VALUE;
         } else {
             return prob;
         }
