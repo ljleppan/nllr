@@ -144,4 +144,11 @@ public class Corpus {
     public Calendar getEndDate() {
         return endDate;
     }
+
+    /**
+     * @return 
+     */
+    public ArrayList<Document> getDocuments() {
+        return documents;
+    }
 }
