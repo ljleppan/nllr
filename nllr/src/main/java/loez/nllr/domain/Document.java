@@ -1,7 +1,8 @@
 package loez.nllr.domain;
 
+import loez.nllr.datastructure.HashMap;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 /**
  * Document is a single text.
@@ -22,7 +23,7 @@ public class Document {
         this.body = body;
         this.date = date;
         
-        this.tokenAmounts = new HashMap<String, Integer>();
+        this.tokenAmounts = new HashMap<>();
         this.numTokens = 0;
         
         countTokenFrequencies();
@@ -76,10 +77,10 @@ public class Document {
     
     /**
      * Get the document's unique tokens.
-     * @return  An array of unique tokens in the documents. Order is not specified.
+     * @return  An ArrayList of unique tokens in the documents. Order is not specified.
      */
-    public String[] getUniqueTokens(){
-        return tokenAmounts.keySet().toArray(new String[tokenAmounts.keySet().size()]);
+    public ArrayList<String> getUniqueTokens(){
+        return tokenAmounts.keySet();
     }
     
     /**
