@@ -24,7 +24,7 @@ public class Tfidf {
      * And tf-idf is finally calculated by:
      *      tf-idf = tf * idf
      * @param token     The token for which the tf-idf score is calculated
-     * @param candidate The text, as an instance of Document
+     * @param query The text, as an instance of Document
      * @param reference The document, as an instance of Corpus
      * @return          A tf-idf score for the given parameters, as a double
      */
