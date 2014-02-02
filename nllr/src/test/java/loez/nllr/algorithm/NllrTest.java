@@ -88,11 +88,6 @@ public class NllrTest extends TestCase{
                 equal(expected, actual));
         
         /*
-        docA = new Document(null, "auto juttu juttu auto asia");
-        docB = new Document(null, "auto hämminki kiva hässäkkä");
-        docC = new Document(null, "testaus olla aina tosi kiva auto");
-        docD = new Document(null, "mutta token keksiä joskus vaikea");
-        
         NLLR #2
         sub-results for each token in query:
         token:      (2/5) * log(   (1/11)  / (2/20) ) =  0.23913480030224818
@@ -108,8 +103,6 @@ public class NllrTest extends TestCase{
                 
         assertTrue("NLLR calculation #2 gave incorrect result, see test file for more information. Expected "+ expected +" got "+ actual,
                 equal(expected, actual));
-        
-        
     }
     
     public boolean equal(double a, double b){
