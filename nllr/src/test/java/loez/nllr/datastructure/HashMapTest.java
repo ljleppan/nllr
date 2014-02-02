@@ -133,14 +133,14 @@ public class HashMapTest {
                 hm.getSize() == 16);
     }
 
-    private void addMultiple(int maara) {
-        for (int i = 1; i <= maara; i++) {
+    private void addMultiple(int amount) {
+        for (int i = 1; i <= amount; i++) {
             hm.put(""+i, i);
         }
     }
     
-    private void removeMultiple(int alku, int loppu){
-        for (int i = alku; i <= loppu; i++) {
+    private void removeMultiple(int start, int end){
+        for (int i = start; i <= end; i++) {
             hm.remove(""+i);
         }
     }
