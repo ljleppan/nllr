@@ -2,7 +2,6 @@ package loez.nllr.algorithm;
 
 import java.util.ArrayList;
 import junit.framework.TestCase;
-import loez.nllr.algorithm.Nllr;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 
@@ -87,8 +86,6 @@ public class NllrTest extends TestCase{
                 
         assertTrue("NLLR calculation #1 gave incorrect result, see test file for more information. Expected "+ expected +" got "+ actual,
                 equal(expected, actual));
-        
-        System.out.println("---");
         
         /*
         docA = new Document(null, "auto juttu juttu auto asia");
