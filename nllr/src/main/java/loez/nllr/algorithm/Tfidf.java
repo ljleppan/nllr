@@ -1,6 +1,7 @@
 package loez.nllr.algorithm;
 
-import java.util.ArrayList;
+
+import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 

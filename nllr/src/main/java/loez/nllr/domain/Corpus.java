@@ -1,9 +1,9 @@
 package loez.nllr.domain;
 
 import loez.nllr.datastructure.HashMap;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import loez.nllr.datastructure.ArrayList;
 
 
 /**

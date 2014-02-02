@@ -1,8 +1,8 @@
 package loez.nllr.domain;
 
 import loez.nllr.datastructure.HashMap;
-import java.util.ArrayList;
 import java.util.Calendar;
+import loez.nllr.datastructure.ArrayList;
 
 /**
  * Document is a single text.
