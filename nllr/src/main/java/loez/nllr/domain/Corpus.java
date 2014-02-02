@@ -1,9 +1,10 @@
 package loez.nllr.domain;
 
+import loez.nllr.datastructure.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+
 
 /**
  * Corpus is a collection of Documents.
@@ -19,7 +20,7 @@ public class Corpus {
     /**
      * Creates a new corpus with known first and final dates of the included documents.
      * @param startDate The earliest date of creation for the corpus documents.
-     * @param endDate   The latest date of creationg for the corpus documents.
+     * @param endDate   The latest date of creation for the corpus documents.
      * @param documents The documents the corpus is comprised of.
      */
     public Corpus(Calendar startDate, Calendar endDate, ArrayList<Document> documents){
@@ -33,7 +34,7 @@ public class Corpus {
             this.documents = documents;
         }
 
-        this.tokenFrequensies = new HashMap<String, Integer>();
+        this.tokenFrequensies = new HashMap<>();
         totalTokens = 0;
         
         refreshStats();
@@ -101,7 +102,7 @@ public class Corpus {
 
     private void refreshStats() {
         totalTokens = 0;
-        tokenFrequensies = new HashMap<String, Integer>();
+        tokenFrequensies = new HashMap<>();
         
         for (Document doc : documents){
             refreshDates(doc);
