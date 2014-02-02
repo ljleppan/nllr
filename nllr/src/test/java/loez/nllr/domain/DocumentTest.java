@@ -1,5 +1,6 @@
 package loez.nllr.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import junit.framework.TestCase;
@@ -32,13 +33,13 @@ public class DocumentTest extends TestCase {
     }
     
     public void testGetUniqueTokens(){
-        String[] uniqueTokens = doc.getUniqueTokens();
+        ArrayList<String> uniqueTokens = doc.getUniqueTokens();
         assertTrue("getUniqueTokens() returned an incorrect amount of unique tokens.",
-                uniqueTokens.length == 2);
+                uniqueTokens.size() == 2);
         assertTrue("getUniqueTokens() should return an array that includes the String \"asia\"",
-                (uniqueTokens[0].equals("asia") || uniqueTokens[1].equals("asia")));
+                uniqueTokens.contains("asia"));
         assertTrue("getUniqueTokens() should return an array that includes the String \"auto\"",
-                (uniqueTokens[0].equals("auto") || uniqueTokens[1].equals("auto")));
+                uniqueTokens.contains("auto"));
     }
     
     public void testGetTotalTokens(){
