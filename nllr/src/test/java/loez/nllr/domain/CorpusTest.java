@@ -26,7 +26,7 @@ public class CorpusTest extends TestCase {
         String docTextB = "juttu juttu hässäkkä";
         docB = new Document(date, docTextB);
         
-        docs = new ArrayList<Document>();
+        docs = new ArrayList<>();
         docs.add(docA);
         docs.add(docB);
         
@@ -47,7 +47,7 @@ public class CorpusTest extends TestCase {
     }
     
     public void testGet(){       
-        ArrayList<Document> docList = new ArrayList<Document>();
+        ArrayList<Document> docList = new ArrayList<>();
         docList.add(docA);
         Corpus c = new Corpus(null, null, docList);
         
@@ -101,7 +101,7 @@ public class CorpusTest extends TestCase {
         Calendar fourth = new GregorianCalendar();
         fourth.set(2004, 1, 1);
         
-        ArrayList<Document> cDocs = new ArrayList<Document>();
+        ArrayList<Document> cDocs = new ArrayList<>();
         cDocs.add(new Document(second, body));
         cDocs.add(new Document(third, body));
         
