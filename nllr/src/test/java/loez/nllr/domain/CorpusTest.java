@@ -2,14 +2,16 @@ package loez.nllr.domain;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import junit.framework.TestCase;
 import loez.nllr.datastructure.ArrayList;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for Corpus
  * @author ljleppan@cs
  */
-public class CorpusTest extends TestCase {
+public class CorpusTest{
     
     private Corpus corpus;
     private Document docA;
@@ -17,8 +19,8 @@ public class CorpusTest extends TestCase {
     private ArrayList<Document> docs;
     
     
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         String docTextA = "asia asia auto asia asia";
         Calendar date = new GregorianCalendar();
         docA = new Document(date, docTextA);
@@ -33,62 +35,69 @@ public class CorpusTest extends TestCase {
         corpus = new Corpus(date, date, docs);
     }
     
+    @Test
     public void testDatelessConstructorGenerateDates(){
         Corpus c = new Corpus(null, null, docs);
-        assertTrue("When creating a corpus without dates, the end date should not be null.",
-                c.getEndDate() != null);
-        assertTrue("When creating a corpus without dates, the start date should not be null.",
-                c.getStartDate() != null);
+        assertNotNull("When creating a corpus without dates, the end date should not be null.",
+                c.getEndDate());
+        assertNotNull("When creating a corpus without dates, the start date should not be null.",
+                c.getStartDate());
     }
     
+    @Test
     public void testConstructorsShouldUpdateStatsProperly(){
-        assertTrue("getTotalTokens should return 8 after construction with documents consisting of 5 and 3 tokens, instead got "+ corpus.getTotalTokens(),
-                corpus.getTotalTokens() == 8);
+        assertEquals("getTotalTokens should return 8 after construction with documents consisting of 5 and 3 tokens, instead got "+ corpus.getTotalTokens(),
+                corpus.getTotalTokens(), 8);
     }
     
+    @Test
     public void testGet(){       
         ArrayList<Document> docList = new ArrayList<>();
         docList.add(docA);
         Corpus c = new Corpus(null, null, docList);
         
-        assertTrue("Getting the only document should return the only document.",
-                c.get(0) == docA);
+        assertEquals("Getting the only document should return the only document.",
+                c.get(0), docA);
         
-        assertTrue("Getting an index that doesn't exist should return null",
-                c.get(15) == null);
+        assertNull("Getting an index that doesn't exist should return null",
+                c.get(15));
         
         c = new Corpus();
         
-        assertTrue("Getting a document from an empty corpus should return null",
-                c.get(0) == null);
+        assertNull("Getting a document from an empty corpus should return null",
+                c.get(0));
     }
     
+    @Test
     public void testRemove(){
         corpus.remove(0);
-        assertTrue("Removing a document updates the stats",
-                corpus.getTotalTokens() != 8);
-        assertTrue("Removing a document removes the document",
-                corpus.get(1) == null);
+        assertNotSame("Removing a document updates the stats",
+                corpus.getTotalTokens(), 8);
+        assertNull("Removing a document removes the document",
+                corpus.get(1));
     }
     
+    @Test
     public void testAdd(){
         corpus.add(null);
-        assertTrue("Trying to add a null document does nothing",
-                corpus.get(2) == null);
+        assertNull("Trying to add a null document does nothing",
+                corpus.get(2));
         corpus.add(docB);
-        assertTrue("Adding a document adds the document",
-                corpus.get(2) == docB);
+        assertEquals("Adding a document adds the document",
+                corpus.get(2), docB);
     }
     
+    @Test
     public void testGetFrequency(){
-        assertTrue("getFrequency() should the correct frequency of the queried token",
-                corpus.getFrequency("asia") == 4);
-        assertTrue("getFrequency() should return 0 when the token is not present",
-                corpus.getFrequency("blaaa") == 0);
-        assertTrue("getFrequency() should return 0 when the token is null",
-                corpus.getFrequency(null) == 0);
+        assertEquals("getFrequency() should the correct frequency of the queried token",
+                corpus.getFrequency("asia"), 4);
+        assertEquals("getFrequency() should return 0 when the token is not present",
+                corpus.getFrequency("blaaa"), 0);
+        assertEquals("getFrequency() should return 0 when the token is null",
+                corpus.getFrequency(null), 0);
     }
     
+    @Test
     public void testUpdatingDates(){
         String body = "auto auto asia";
         
@@ -138,14 +147,16 @@ public class CorpusTest extends TestCase {
                 isSameDate(c.getStartDate(), first) && isSameDate(c.getEndDate(), fourth));
     }
     
+    @Test
     public void testAddingDocumentsUpdatesTotalTokens(){
         int tokensBefore = corpus.getTotalTokens();
         Document doc = new Document(null, "auto testo");
         corpus.add(doc);
-        assertTrue("Adding a document updates the total number of tokens correctly",
-                corpus.getTotalTokens() == tokensBefore + 2);
+        assertEquals("Adding a document updates the total number of tokens correctly",
+                corpus.getTotalTokens(), tokensBefore + 2);
     }
     
+    @Test
     public void testGetDocuments(){
         assertTrue("getDocuments should return an arraylist",
                 corpus.getDocuments() instanceof ArrayList);
