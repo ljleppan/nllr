@@ -347,6 +347,10 @@ public class HashMap<K, V> implements Iterable<K>{
         newArray[newIndex] = newEntry;
     }
     
+    /**
+     * An implementation of Iterator that iterates HashMap's keys.
+     * @param <T>   Type of HashMap's keys.
+     */
     public class HashMapKeyIterator<T> implements Iterator<T>{
         private ArrayList<K> keySet = keySet();
         private int expectedModCount = modCount;
