@@ -1,16 +1,18 @@
 package loez.nllr.algorithm;
 
-import junit.framework.TestCase;
 import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  *
  * @author loezi
  */
-public class NllrTest extends TestCase{
+public class NllrTest{
     
     private Document docA;
     private Document docB;
@@ -22,7 +24,7 @@ public class NllrTest extends TestCase{
     private Document query;
     private Nllr nllr;
 
-    @Override
+    @Before
     public void setUp() {
         docA = new Document(null, "auto juttu juttu auto asia");
         docB = new Document(null, "auto hämminki kiva hässäkkä");
@@ -51,6 +53,7 @@ public class NllrTest extends TestCase{
         nllr = new Nllr(reference);
     }
     
+    @Test
     public void testCalculateTokenProbabilityForDocument(){
         assertTrue("Probability for tokens not present in the document should be 0.0000000000000001",
                 equal(nllr.calculateTokenProbability("testi", docA), Nllr.NONZERO));
@@ -60,6 +63,7 @@ public class NllrTest extends TestCase{
                 equal(nllr.calculateTokenProbability("asia", docA), 0.2));
     }
     
+    @Test
     public void testCalculateTokenProbabilityForCorpus(){
         assertTrue("Probability for tokens not present in the corpus should be 0.0000000000000001",
                 equal(nllr.calculateTokenProbability("testi", candidateA), Nllr.NONZERO));
@@ -69,6 +73,7 @@ public class NllrTest extends TestCase{
                 equal(nllr.calculateTokenProbability("asia", candidateA), 1.0/9));
     }
     
+    @Test
     public void testCalculateNllr(){       
         /*
         NLLR #1
