@@ -1,5 +1,8 @@
 package loez.nllr.datastructure;
 
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -131,6 +134,55 @@ public class HashMapTest {
         hm.remove("8");
         assertEquals("Leaving 7 keys in a a hashmap with size 32 should decrease the size ",
                 16, hm.getSize());
+    }
+    
+    @Test
+    public void canIterateWithFor(){
+        addMultiple(3);
+        ArrayList<String> metKeys = new ArrayList<>();
+        for (String s : hm){
+            metKeys.add(s);
+        }
+        assertEquals("for keyword should loop thru all the elements in the arraylist",
+                hm.keySet().size(), metKeys.size());
+    }
+    
+    @Test
+    public void canRemoveWithIterator(){
+        addMultiple(3);
+        Iterator<String> iter = hm.iterator();
+        while (iter.hasNext()){
+            iter.remove();
+        }        
+        assertTrue("removing items with iterator works",
+                hm.keySet().isEmpty());
+    }
+    
+    @Test(expected = ConcurrentModificationException.class)
+    public void unableToRemoveWithFor(){
+        addMultiple(3);
+        for (String s : hm){
+            hm.remove(s);
+        }
+    }
+    
+    @Test(expected = ConcurrentModificationException.class)
+    public void unableToContinueIterationAfterOutsideRemoval(){
+        addMultiple(3);
+        Iterator<String> iter = hm.iterator();
+        hm.remove("1");
+        iter.remove();
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void unableToIterateBeyondLastElement(){
+        addMultiple(3);
+        Iterator<String> iter = hm.iterator();
+        while (iter.hasNext()){
+            iter.next();
+        }
+        System.out.println("a");
+        iter.next();
     }
 
     private void addMultiple(int amount) {
