@@ -56,8 +56,8 @@ public class HashMapTest {
                 hm.keySet().isEmpty());
         assertTrue("After adding a key, containsKey should return true for that key",
                 hm.containsKey("a"));
-        assertTrue("Adding two keys to an empty map should not change the size",
-                hm.getSize() == 16);
+        assertEquals("Adding two keys to an empty map should not change the size",
+                16, hm.getSize());
         
     }
     
@@ -65,25 +65,25 @@ public class HashMapTest {
     public void removingKeysWorks() {
         hm.put("a", 1);
         hm.put("b", 2);
-        assertTrue("After adding two keys, two keys should be present in the keyset",
-                hm.keySet().size() == 2);
+        assertEquals("After adding two keys, two keys should be present in the keyset",
+                2, hm.keySet().size());
         
         hm.remove("c");
-        assertTrue("Removing a non-existant key should not do anything",
-                hm.keySet().size() == 2);
+        assertEquals("Removing a non-existant key should not do anything",
+                2, hm.keySet().size());
         
         hm.remove("a");
-        assertTrue("Keyset should not include a key after that key has been removed",
-                hm.keySet().size() == 1);
+        assertEquals("Keyset should not include a key after that key has been removed",
+                1, hm.keySet().size());
         
-        assertTrue("Removing one of two entries should not change size",
-                hm.getSize() == 16);
+        assertEquals("Removing one of two entries should not change size",
+                16, hm.getSize());
     }
     
     @Test
     public void gettingKeysWorks() {
-        assertTrue("Getting a non-existant key should return null",
-                hm.get("NOPE") == null);
+        assertEquals("Getting a non-existant key should return null",
+                null, hm.get("NOPE"));
     }
     
     @Test
@@ -97,8 +97,8 @@ public class HashMapTest {
         h.put(c2, 2);
         h.put(c3, 3);
         h.put(c4, 4);
-        assertTrue("Adding colliding entries should keep all entries in keyset",
-                h.keySet().size() == 4);
+        assertEquals("Adding colliding entries should keep all entries in keyset",
+                4, h.keySet().size());
         assertTrue("Searching for colliding key should return corrent key",
                 h.get(c1) == 1 && h.get(c2) == 2 && h.get(c3) == 3 && h.get(c4) == 4);
 
@@ -108,29 +108,29 @@ public class HashMapTest {
         h.remove(c4);
         assertTrue("Removing one of colliding keys should leave the others and remove the correct one",
                 h.get(c1) == 1 && h.get(c2) == 2 && h.get(c3) == null && h.get(c4) == null);
-        assertTrue("Adding 3 colliding keys to an empty hashmap should not increase the size",
-                h.getSize() == 16);
+        assertEquals("Adding 3 colliding keys to an empty hashmap should not increase the size",
+                16, h.getSize());
     }
     
     @Test
     public void capacityChangesWork(){
         System.out.println("1");
         addMultiple(12);
-        assertTrue("Adding 12 entries to an empty hashmap should not result in a size increase",
-                hm.getSize() == 16);
+        assertEquals("Adding 12 entries to an empty hashmap should not result in a size increase",
+                16, hm.getSize());
         
         hm = new HashMap<>();
         addMultiple(13);
-        assertTrue("Adding a 13th element to a hashmap with size 16 should increase the size",
-                hm.getSize() == 32);        
+        assertEquals("Adding a 13th element to a hashmap with size 16 should increase the size",
+                32, hm.getSize());        
         
         removeMultiple(9, 13);
-        assertTrue("Leaving 8 keys in a hashmap with size 32 should not decrease the size",
-                hm.getSize() == 32);
+        assertEquals("Leaving 8 keys in a hashmap with size 32 should not decrease the size",
+                32, hm.getSize());
         
         hm.remove("8");
-        assertTrue("Leaving 7 keys in a a hashmap with size 32 should decrease the size ",
-                hm.getSize() == 16);
+        assertEquals("Leaving 7 keys in a a hashmap with size 32 should decrease the size ",
+                16, hm.getSize());
     }
 
     private void addMultiple(int amount) {
