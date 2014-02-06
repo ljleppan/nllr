@@ -1,5 +1,6 @@
 package loez.nllr.algorithm;
 
+import loez.nllr.domain.BagOfWords;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 
@@ -47,30 +48,12 @@ public class Nllr {
      * @param document  The document.
      * @return          The probability of the token in the document.
      */
-    public double calculateTokenProbability(String token, Document document) {
-        double prob =  (double) document.getFrequency(token) / document.getTotalTokens();
+    public double calculateTokenProbability(String token, BagOfWords bagOfWords) {
+        double prob =  (double) bagOfWords.getFrequency(token) / bagOfWords.getTotalTokens();
         if (prob == 0){
             return NONZERO;
         } else {
             return prob;
         }
     }
-    
-    /**
-     * Calculates the token probability for the given token in the given corpus.
-     * Token probability is defined as the frequency of the token divided by the total amount of tokens.
-     * @param token     The token.
-     * @param corpus    The corpus.
-     * @return          The probability of the token in the corpus.
-     */
-    public double calculateTokenProbability(String token, Corpus corpus) {
-        double prob = (double) corpus.getFrequency(token) / corpus.getTotalTokens();
-        if (prob == 0){
-            return NONZERO;
-        } else {
-            return prob;
-        }
-    }
-    
-   
 }
