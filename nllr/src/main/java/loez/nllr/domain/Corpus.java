@@ -162,7 +162,9 @@ public class Corpus implements BagOfWords{
     public HashSet<String> getUniqueTokens() {
         HashSet<String> uniqueTokens = new HashSet<>();
         for (Document d : documents){
-            uniqueTokens.addAll(d.getUniqueTokens());
+            for (String token : d.getUniqueTokens()){
+                uniqueTokens.add(token);
+            }
         }
         return uniqueTokens;
     }
