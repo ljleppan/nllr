@@ -152,12 +152,15 @@ public class Corpus implements BagOfWords{
     }
 
     /**
-     * @return 
+     * @return A list of the documents that the corpus consists of.
      */
     public ArrayList<Document> getDocuments() {
         return documents;
     }
     
+    /**
+     * @return A HashSet of unique tokens found in the corpus.
+     */
     @Override
     public HashSet<String> getUniqueTokens() {
         HashSet<String> uniqueTokens = new HashSet<>();
