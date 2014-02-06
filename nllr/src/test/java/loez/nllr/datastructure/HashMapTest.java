@@ -174,6 +174,14 @@ public class HashMapTest {
         iter.remove();
     }
     
+    @Test(expected = ConcurrentModificationException.class)
+    public void unableToContinueIterationAfterOutsideAdd(){
+        addMultiple(3);
+        Iterator<String> iter = hm.iterator();
+        hm.put("5", 5);
+        iter.remove();
+    }
+    
     @Test(expected = NoSuchElementException.class)
     public void unableToIterateBeyondLastElement(){
         addMultiple(3);
