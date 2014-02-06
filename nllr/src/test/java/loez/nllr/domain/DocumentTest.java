@@ -3,7 +3,7 @@ package loez.nllr.domain;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import junit.framework.TestCase;
-import loez.nllr.datastructure.ArrayList;
+import loez.nllr.datastructure.HashSet;
 
 /**
  * Tests for Document
@@ -33,7 +33,7 @@ public class DocumentTest extends TestCase {
     }
     
     public void testGetUniqueTokens(){
-        ArrayList<String> uniqueTokens = doc.getUniqueTokens();
+        HashSet<String> uniqueTokens = doc.getUniqueTokens();
         assertTrue("getUniqueTokens() returned an incorrect amount of unique tokens.",
                 uniqueTokens.size() == 2);
         assertTrue("getUniqueTokens() should return an array that includes the String \"asia\"",
