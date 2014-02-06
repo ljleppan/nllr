@@ -10,6 +10,10 @@ import loez.nllr.domain.Document;
  */
 public class Nllr {
     private final Corpus corpus;
+
+    /**
+     * A small near-zero constant that is used in place of zero to prevent divisions by zero.
+     */
     public static final double NONZERO = 0.0000001;
     
     /**
@@ -42,11 +46,11 @@ public class Nllr {
     }
 
     /**
-     * Calculates the token probability for the given token in the given document.
+     * Calculates the token probability for the given token in the given BagOfWords.
      * Token probability is defined as the frequency of the token divided by the total amount of tokens.
-     * @param token     The token.
-     * @param document  The document.
-     * @return          The probability of the token in the document.
+     * @param token      The token.
+     * @param bagOfWords The BagOfWords
+     * @return           The probability of the token in the document.
      */
     public double calculateTokenProbability(String token, BagOfWords bagOfWords) {
         double prob =  (double) bagOfWords.getFrequency(token) / bagOfWords.getTotalTokens();
