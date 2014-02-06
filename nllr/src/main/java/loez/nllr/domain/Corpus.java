@@ -85,6 +85,7 @@ public class Corpus implements BagOfWords{
      * Get the total amount of (non-unique) tokens in the corpus's documents.
      * @return  The total amount of (non-unique) tokens.
      */
+    @Override
     public int getTotalTokens() {
         return this.totalTokens;
     }
@@ -94,6 +95,7 @@ public class Corpus implements BagOfWords{
      * @param token The token.
      * @return      The frequency of the token withing the corpus.
      */
+    @Override
     public int getFrequency(String token) {
         if (this.tokenFrequensies.containsKey(token)){
             return this.tokenFrequensies.get(token);
