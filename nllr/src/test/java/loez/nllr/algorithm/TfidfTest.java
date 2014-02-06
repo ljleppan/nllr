@@ -45,7 +45,7 @@ public class TfidfTest extends TestCase{
          * log (4 / 3) = 0.287682072451780
          */
         double expected = 0.287682072451780;
-        double got = Tfidf.idf(refDocs, "auto");
+        double got = Tfidf.idf(reference, "auto");
         assertTrue("IDF test #1 failed, see test code for further details. Expected "+expected+" got "+got,
                 equal(got , expected));
         
@@ -54,7 +54,7 @@ public class TfidfTest extends TestCase{
          * log (4 / 1) = 1.386294361119890
          */
         expected = 1.386294361119890;
-        got = Tfidf.idf(refDocs, "asia");
+        got = Tfidf.idf(reference, "asia");
         assertTrue("IDF test #2 failed, see test code for further details. Expected "+expected+" got "+got,
                 equal(got , expected));
     }
