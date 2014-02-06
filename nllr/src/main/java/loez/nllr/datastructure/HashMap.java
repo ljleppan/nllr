@@ -183,30 +183,26 @@ public class HashMap<K, V> implements Iterable<K>{
             return;
         }
         
-        //Check if our entry is the first in the bucket
-        if (e.getKey().equals(key)){
-            //Just set the following entry (null is fine) to be the first entry in the bucket and exit
-            array[index] = e.getNext();
-            entries--;
-            modCount++;       
-            checkCapacity();
-            return;
-        }
-        
-        //Search the bucket for the key, starting from the second entry
-        Entry previous = e;
-        Entry current = e.getNext();
-        while (current != null){
-            Entry next = current.getNext();
-            if (current.getKey().equals(key)){
+        //Search the bucket for the key
+        Entry previous = null;
+        while (e != null){
+            Entry next = e.getNext();
+            if (e.getKey().equals(key)){
                 //Found our entry!
-                //Just set the previous's next to be current's next. It'll automatically be null if current is last in bucket
-                previous.setNext(next);
+                //If entry is head, update array, else update prev's next().
+                if (previous == null){
+                    array[index] = e.getNext();
+                } else {
+                    previous.setNext(next);
+                }
+                
                 entries--;
                 modCount++;
                 checkCapacity();
                 return;
             }
+            previous = e;
+            e = next;
         }
     }
     
