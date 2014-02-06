@@ -1,6 +1,8 @@
 package loez.nllr.datastructure;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A custom implementation of an ArrayList.
@@ -32,6 +34,7 @@ public class ArrayList<T>  implements Iterable<T>{
     
     private int limit = DEFAULT_SIZE;
     private int size = 0;
+    private int modCount = 0;
     
     private Object[] array = new Object[DEFAULT_SIZE];
     
@@ -42,6 +45,7 @@ public class ArrayList<T>  implements Iterable<T>{
     public void add(T value) {
         array[size] = value;
         size++;
+        modCount++;
         checkCapacity();
     }
     
@@ -101,6 +105,7 @@ public class ArrayList<T>  implements Iterable<T>{
     public void clear(){
         array = new Object[DEFAULT_SIZE];
         limit = DEFAULT_SIZE;
+        modCount++;
         size = 0;
     }
     
@@ -119,6 +124,7 @@ public class ArrayList<T>  implements Iterable<T>{
             index++;
         }
         size--;
+        modCount++;
         checkCapacity();
     }
     
@@ -194,22 +200,35 @@ public class ArrayList<T>  implements Iterable<T>{
      * @param <T>   Class of iterated content.
      */
     public class ArrayListIterator<T> implements Iterator<T>{
-
-        private int index;
+        private int expectedModCount = modCount;
+        private int index = 0;
         
         @Override
         public boolean hasNext() {
+            if (modCount != expectedModCount){
+                throw new ConcurrentModificationException();
+            }
+            
             return index < (size);
         }
 
         @Override
         public T next() {
+            if (index >= size){
+                throw new NoSuchElementException();
+            }
+            
             return (T) array[index++];
         }
 
         @Override
         public void remove() {
+            if (modCount != expectedModCount){
+                throw new ConcurrentModificationException();
+            }
+            
             ArrayList.this.remove(index);
+            expectedModCount++;
         }
     }
 }
