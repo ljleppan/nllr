@@ -2,13 +2,13 @@ package loez.nllr.domain;
 
 import loez.nllr.datastructure.HashMap;
 import java.util.Calendar;
-import loez.nllr.datastructure.ArrayList;
+import loez.nllr.datastructure.HashSet;
 
 /**
  * Document is a single text.
  * @author ljleppan@cs
  */
-public class Document {
+public class Document implements BagOfWords{
     private String body;
     private Calendar date;
     private HashMap<String, Integer> tokenAmounts;
@@ -58,6 +58,7 @@ public class Document {
      * @param token The query token.
      * @return      The frequency of the token.
      */
+    @Override
     public int getFrequency(String token){
         if (tokenAmounts.containsKey(token)){
             return tokenAmounts.get(token);
@@ -71,16 +72,20 @@ public class Document {
      * Get the total amount of tokens (non-unique) in the document.
      * @return  The total amount of token in the document body.
      */
+    @Override
     public int getTotalTokens(){
         return numTokens;
     }
     
     /**
      * Get the document's unique tokens.
-     * @return  An ArrayList of unique tokens in the documents. Order is not specified.
+     * @return  A HashSet of unique tokens in the documents. Order is not specified.
      */
-    public ArrayList<String> getUniqueTokens(){
-        return tokenAmounts.keySet();
+    @Override
+    public HashSet<String> getUniqueTokens(){
+        HashSet<String> uniqueTokens = new HashSet<>();
+        uniqueTokens.addAll(tokenAmounts.keySet());
+        return uniqueTokens;
     }
     
     /**
