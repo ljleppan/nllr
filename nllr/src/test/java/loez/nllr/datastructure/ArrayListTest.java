@@ -1,5 +1,6 @@
 package loez.nllr.datastructure;
 
+import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -205,6 +206,33 @@ public class ArrayListTest {
                 "2", al.get(1));
         assertEquals("When removing items by index, items after the removed one should have their indices reduced by one",
                 "3", al.get(2));
+    }
+    
+    @Test
+    public void canTryToRemoveNonExistantElements(){
+        al.remove("1");
+    }
+    
+    @Test
+    public void canIterateWithFor(){
+        addMultiple(3);
+        ArrayList<String> metKeys = new ArrayList<>();
+        for (String s : al){
+            metKeys.add(s);
+        }
+        assertEquals("for keyword should loop thru all the elements in the arraylist",
+                al.size(), metKeys.size());
+    }
+    
+    @Test
+    public void canRemoveWithIterator(){
+        addMultiple(3);
+        Iterator<String> iter = al.iterator();
+        while (iter.hasNext()){
+            iter.remove();
+        }       
+        assertTrue("removing items with iterator works",
+                al.isEmpty());
     }
     
     private void addMultiple(int amount){
