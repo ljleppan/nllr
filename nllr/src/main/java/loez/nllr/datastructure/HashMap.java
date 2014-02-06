@@ -5,10 +5,10 @@ package loez.nllr.datastructure;
 /**
  * An implementation of a Hash map
  * @author ljleppan
- * @param <Key>     Class of keys
- * @param <Value>   Class of values
+ * @param <K>   Class of keys
+ * @param <V>   Class of values
  */
-public class HashMap<Key, Value> {
+public class HashMap<K, V> {
     /**
      * The default size of the backing Array.
      * Must be a power of two.
@@ -43,20 +43,20 @@ public class HashMap<Key, Value> {
     
     /**
      * A single entry (key-value pair) in the HashMap. Also a linked list for easy bucketing.
-     * @param <Key>     Class of key
-     * @param <Value>   Class of value
+     * @param <K>     Class of key
+     * @param <V>   Class of value
      */
-    class Entry<Key, Value> {
-        private final Key key;
-        private Value value;
+    class Entry<K, V> {
+        private final K key;
+        private V value;
         private Entry next;
 
         /**
-         * Creates a new Key-Value pair
+         * Creates a new Key-V pair
          * @param key   Key
          * @param value Value
          */
-        public Entry(Key key, Value value){
+        public Entry(K key, V value){
             this.key = key;
             this.value = value;
         }
@@ -64,21 +64,21 @@ public class HashMap<Key, Value> {
         /**
          * @return The key
          */
-        public Key getKey() {
+        public K getKey() {
             return this.key;
         }
 
         /**
          * @return The value
          */
-        public Value getValue() {
+        public V getValue() {
             return this.value;
         }
 
         /**
          * @param value The new value
          */
-        public void setValue(Value value) {
+        public void setValue(V value) {
             this.value = value;
         }
 
@@ -110,7 +110,7 @@ public class HashMap<Key, Value> {
      * @param key   The key
      * @return      Value associated with the key, or null if the key is not present in the HashMap
      */
-    public Value get(Key key){
+    public V get(K key){
         // Determine in which bucket the Entry should be in
         int index = getIndex(key, size);
         Entry entry = this.array[index];
@@ -118,7 +118,7 @@ public class HashMap<Key, Value> {
         //Go thru that bucket, looking for the key
         while(entry != null) {
             if (entry.getKey().equals(key)){
-                return (Value) entry.getValue();
+                return (V) entry.getValue();
             }
             entry = entry.getNext();
         }
@@ -134,7 +134,7 @@ public class HashMap<Key, Value> {
      * @param key   The key
      * @param value The value
      */
-    public void put(Key key, Value value){   
+    public void put(K key, V value){   
         //Determine which bucket the key belongs to
         int index = getIndex(key, size);
         
@@ -168,7 +168,7 @@ public class HashMap<Key, Value> {
      * If Key is not present in the HashMap, nothing happens.
      * @param key   The key identifying the entry to delete.
      */
-    public void remove(Key key){
+    public void remove(K key){
         //Find the correct bucket
         int index = getIndex(key, size);
         Entry e = array[index];
@@ -208,7 +208,7 @@ public class HashMap<Key, Value> {
      * @param key   The key
      * @return      True, if key is present; false otherwise
      */
-    public boolean containsKey(Key key){
+    public boolean containsKey(K key){
         if (key == null){
             return false;
         }
@@ -229,12 +229,12 @@ public class HashMap<Key, Value> {
      * Lists all the Keys present in the HashMap.
      * @return  ArrayList containing all Keys
      */
-    public ArrayList<Key> keySet(){
-        ArrayList<Key> keySet = new ArrayList<>();
+    public ArrayList<K> keySet(){
+        ArrayList<K> keySet = new ArrayList<>();
         for (int bucket = 0; bucket < this.size; bucket++) {
             Entry e = array[bucket];
             while (e != null){
-                keySet.add((Key) e.getKey());
+                keySet.add((K) e.getKey());
                 e = e.getNext();
             }
         }
@@ -260,7 +260,7 @@ public class HashMap<Key, Value> {
      * @param key
      * @return 
      */
-    private int getIndex(Key key, int size){
+    private int getIndex(K key, int size){
         int hash = key.hashCode();
         hash ^= (hash >>> 20) ^ (hash >>> 12) ^ (hash >>> 7) ^ (hash >>> 4); 
         
@@ -331,8 +331,8 @@ public class HashMap<Key, Value> {
      * @param newArray  The new array
      */
     private void cloneEntry(Entry e, Entry[] newArray) {
-        int newIndex = getIndex((Key) e.getKey(), newArray.length);
-        Entry<Key, Value> newEntry = new Entry<>((Key) e.getKey(), (Value) e.getValue());
+        int newIndex = getIndex((K) e.getKey(), newArray.length);
+        Entry<K, V> newEntry = new Entry<>((K) e.getKey(), (V) e.getValue());
         Entry bucketHead = newArray[newIndex];
         newEntry.setNext(bucketHead);
         newArray[newIndex] = newEntry;
