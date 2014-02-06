@@ -3,6 +3,7 @@ package loez.nllr.domain;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import loez.nllr.datastructure.ArrayList;
+import loez.nllr.datastructure.HashSet;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -162,6 +163,17 @@ public class CorpusTest{
                 corpus.getDocuments() instanceof ArrayList);
         assertTrue("getDocuments should return ArrayList even when no documents were added",
                 new Corpus(null, null, null).getDocuments() instanceof ArrayList);
+    }
+    
+    @Test
+    public void testGetUniqueTokens(){
+        HashSet<String> uniqueTokens = corpus.getUniqueTokens();
+        assertEquals("getUniqueTokens() returned an incorrect amount of unique tokens.",
+                uniqueTokens.size(), 4);
+        assertTrue("getUniqueTokens() should return a hashset that includes the String \"asia\"",
+                uniqueTokens.contains("asia"));
+        assertTrue("getUniqueTokens() should return a hashset that includes the String \"auto\"",
+                uniqueTokens.contains("auto"));
     }
     
     private boolean isSameDate(Calendar a, Calendar b){
