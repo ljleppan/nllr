@@ -98,9 +98,10 @@ public class HashMap<Key, Value> {
     }
     
     /**
+     * PACKAGE VISIBLE, FOR UNIT TESTS
      * @return The size of the HashMap's backing array (NOT number of entries).
      */
-    public int getSize(){
+    int getSize(){
         return this.size;
     }
     
