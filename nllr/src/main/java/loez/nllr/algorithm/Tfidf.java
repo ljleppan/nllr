@@ -29,21 +29,19 @@ public class Tfidf {
      * @return          A tf-idf score for the given parameters, as a double
      */
     public static double tfidf(String token, Document query, Corpus reference){
-        int tf = query.getFrequency(token);
-        
-        ArrayList<Document> referenceDocs = reference.getDocuments();   
-        double idf = idf(referenceDocs, token);
-        
+        int tf = query.getFrequency(token); 
+        double idf = idf(reference, token);
         return tf * idf;
     }
 
     /**
      * Calculate the idf (Inverse Document Frequency) of a token
-     * @param referenceDocs The corpus as a collection of documents
+     * @param reference     The corpus as a collection of documents
      * @param token         The token     
      * @return              idf score for the token and the corpus
      */
-    public static double idf(ArrayList<Document> referenceDocs, String token) {
+    public static double idf(Corpus reference, String token) {
+        ArrayList<Document> referenceDocs = reference.getDocuments();  
         int totalDocs = referenceDocs.size();
         
         int docsContainingTerm = 0;
