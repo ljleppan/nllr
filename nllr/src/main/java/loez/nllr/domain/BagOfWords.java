@@ -1,6 +1,6 @@
 package loez.nllr.domain;
 
-import loez.nllr.datastructure.ArrayList;
+import loez.nllr.datastructure.HashSet;
 
 /**
  *
@@ -9,5 +9,5 @@ import loez.nllr.datastructure.ArrayList;
 public interface BagOfWords {
     public int getTotalTokens();
     public int getFrequency(String token);
-    public ArrayList<String> getUniqueTokens();
+    public HashSet<String> getUniqueTokens();
 }
