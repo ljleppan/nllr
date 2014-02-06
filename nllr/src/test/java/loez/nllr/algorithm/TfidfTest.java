@@ -1,21 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package loez.nllr.algorithm;
 
-import junit.framework.TestCase;
 import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author loezi
  */
-public class TfidfTest extends TestCase{
+public class TfidfTest{
     
     private Document docA;
     private Document docB;
@@ -24,7 +20,7 @@ public class TfidfTest extends TestCase{
     private ArrayList<Document> refDocs;
     private Corpus reference;
     
-    @Override
+    @Before
     public void setUp() {
         docA = new Document(null, "auto juttu juttu auto asia");
         docB = new Document(null, "auto hämminki kiva hässäkkä");
@@ -39,6 +35,7 @@ public class TfidfTest extends TestCase{
         reference = new Corpus(null, null, refDocs);
     }
     
+    @Test
     public void testIdf(){
         /**
          * IDF for a corpus of 4 texts, of which 3 contain the token:
@@ -59,6 +56,7 @@ public class TfidfTest extends TestCase{
                 equal(got , expected));
     }
     
+    @Test
     public void testTfidf(){
         /**
          * TF-IDF for a corpus of 4 texts, of which 3 contain the token that has a TF of 2:
