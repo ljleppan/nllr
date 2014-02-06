@@ -1,6 +1,8 @@
 package loez.nllr.datastructure;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -230,9 +232,35 @@ public class ArrayListTest {
         Iterator<String> iter = al.iterator();
         while (iter.hasNext()){
             iter.remove();
-        }       
+        }        
         assertTrue("removing items with iterator works",
                 al.isEmpty());
+    }
+    
+    @Test(expected = ConcurrentModificationException.class)
+    public void unableToRemoveWithFor(){
+        addMultiple(3);
+        for (String s : al){
+            al.remove(s);
+        }
+    }
+    
+    @Test(expected = ConcurrentModificationException.class)
+    public void unableToContinueIterationAfterOutsideRemoval(){
+        addMultiple(3);
+        Iterator<String> iter = al.iterator();
+        al.remove("1");
+        iter.remove();
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void unableToIterateBeyondLastElement(){
+        addMultiple(3);
+        Iterator<String> iter = al.iterator();
+        while (iter.hasNext()){
+            iter.next();
+        }
+        iter.next();
     }
     
     private void addMultiple(int amount){
