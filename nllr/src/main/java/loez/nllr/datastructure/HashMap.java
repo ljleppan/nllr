@@ -1,5 +1,8 @@
 package loez.nllr.datastructure;
 
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -8,7 +11,7 @@ package loez.nllr.datastructure;
  * @param <K>   Class of keys
  * @param <V>   Class of values
  */
-public class HashMap<K, V> {
+public class HashMap<K, V> implements Iterable<K>{
     /**
      * The default size of the backing Array.
      * Must be a power of two.
@@ -38,6 +41,7 @@ public class HashMap<K, V> {
     private final static double CHANGE_CAPACITY_FACTOR = 2;
     
     private int size = DEFAULT_SIZE;
+    private int modCount = 0;
     private int entries = 0;
     private Entry[] array = new Entry[DEFAULT_SIZE];
     
@@ -160,6 +164,7 @@ public class HashMap<K, V> {
             array[index] = newEntry;
         }
         entries++;
+        modCount++;
         checkCapacity();
     }
     
@@ -183,6 +188,7 @@ public class HashMap<K, V> {
             //Just set the following entry (null is fine) to be the first entry in the bucket and exit
             array[index] = e.getNext();
             entries--;
+            modCount++;       
             checkCapacity();
             return;
         }
@@ -197,6 +203,7 @@ public class HashMap<K, V> {
                 //Just set the previous's next to be current's next. It'll automatically be null if current is last in bucket
                 previous.setNext(next);
                 entries--;
+                modCount++;
                 checkCapacity();
                 return;
             }
@@ -239,6 +246,12 @@ public class HashMap<K, V> {
             }
         }
         return keySet;
+    }
+    
+    
+    @Override
+    public Iterator<K> iterator(){
+        return new HashMapKeyIterator<>();
     }
     
     /**
@@ -336,5 +349,40 @@ public class HashMap<K, V> {
         Entry bucketHead = newArray[newIndex];
         newEntry.setNext(bucketHead);
         newArray[newIndex] = newEntry;
+    }
+    
+    public class HashMapKeyIterator<T> implements Iterator<T>{
+        private ArrayList<K> keySet = keySet();
+        private int expectedModCount = modCount;
+        private int index = 0;
+        
+        @Override
+        public boolean hasNext() {
+            if (modCount != expectedModCount){
+                throw new ConcurrentModificationException();
+            }
+            
+            return index < (keySet.size());
+        }
+
+        @Override
+        public T next() {
+            if (index >= keySet.size()){
+                throw new NoSuchElementException();
+            }
+            
+            return (T) keySet.get(index++);
+            
+        }
+
+        @Override
+        public void remove() {
+            if (modCount != expectedModCount){
+                throw new ConcurrentModificationException();
+            }
+
+            HashMap.this.remove(keySet.get(index++));
+            expectedModCount++;
+        }
     }
 }
