@@ -4,13 +4,14 @@ import loez.nllr.datastructure.HashMap;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import loez.nllr.datastructure.ArrayList;
+import loez.nllr.datastructure.HashSet;
 
 
 /**
  * Corpus is a collection of Documents.
  * @author ljleppan@cs
  */
-public class Corpus {
+public class Corpus implements BagOfWords{
     private ArrayList<Document> documents = new ArrayList<>();
     private Calendar startDate = new GregorianCalendar();
     private Calendar endDate = new GregorianCalendar();
@@ -153,5 +154,14 @@ public class Corpus {
      */
     public ArrayList<Document> getDocuments() {
         return documents;
+    }
+    
+    @Override
+    public HashSet<String> getUniqueTokens() {
+        HashSet<String> uniqueTokens = new HashSet<>();
+        for (Document d : documents){
+            uniqueTokens.addAll(d.getUniqueTokens());
+        }
+        return uniqueTokens;
     }
 }
