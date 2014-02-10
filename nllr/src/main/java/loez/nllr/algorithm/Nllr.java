@@ -8,7 +8,7 @@ import loez.nllr.domain.Document;
  * An NLLR-calculator.
  * @author ljleppan@cs
  */
-public class Nllr {
+public class Nllr implements Algorithm{
     private final Corpus corpus;
 
     /**
@@ -58,6 +58,27 @@ public class Nllr {
             return NONZERO;
         } else {
             return prob;
+        }
+    }
+    
+    /**
+     * A wrapper of the nllr() method for the Algorithm interface.
+     * @param args  Arguments
+     * @return      Result
+     */
+    @Override
+    public double calculate(Object[] args){
+        if (args.length != 2){
+            throw new IllegalArgumentException();
+        }
+        
+        if (args[0] instanceof Document && args[1] instanceof Corpus){
+            Document query = (Document) args[0];
+            Corpus candidate = (Corpus) args[1];
+            
+            return calculateNllr(query, candidate);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 }
