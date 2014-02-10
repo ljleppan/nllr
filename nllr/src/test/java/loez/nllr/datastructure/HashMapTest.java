@@ -117,7 +117,6 @@ public class HashMapTest {
     
     @Test
     public void capacityChangesWork(){
-        System.out.println("1");
         addMultiple(12);
         assertEquals("Adding 12 entries to an empty hashmap should not result in a size increase",
                 16, hm.getSize());
@@ -189,7 +188,6 @@ public class HashMapTest {
         while (iter.hasNext()){
             iter.next();
         }
-        System.out.println("a");
         iter.next();
     }
 
