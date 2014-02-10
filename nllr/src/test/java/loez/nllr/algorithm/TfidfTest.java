@@ -77,10 +77,50 @@ public class TfidfTest{
                 equal(got , expected));
     }
     
+    @Test
+    public void calculateTest(){
+        double expected = 1.386294361119890;
+        
+        Object[] args = {"token", docD, reference};
+        double actual = new Tfidf().calculate(args);
+                
+        assertTrue("calculate() result didn't match TFIDF calculation #2 result. Expected "+ expected +" got "+ actual,
+                equal(expected, actual));
+    } 
+    
     public boolean equal(double a, double b){
         double epsilon = 0.00000001;
         return Math.abs(a - b) < epsilon;
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateTooFewArgs(){
+        Object[] args = {"token", docD};
+        new Tfidf().calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateTooManyArgs(){
+        Object[] args = {"token", docD, reference, docD};
+        new Tfidf().calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateWrongArgTypes1(){
+        Object[] args = {null, docD, reference};
+        new Tfidf().calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateWrongArgTypes2(){
+        Object[] args = {"token", null, reference};
+        new Tfidf().calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateWrongArgTypes3(){
+        Object[] args = {"token", docD, null};
+        new Tfidf().calculate(args);
+    }
     
 }
