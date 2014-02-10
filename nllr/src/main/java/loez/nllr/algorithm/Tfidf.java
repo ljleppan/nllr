@@ -9,7 +9,7 @@ import loez.nllr.domain.Document;
  *
  * @author ljleppan@cs
  */
-public class Tfidf {
+public class Tfidf implements Algorithm{
     
     /**
      * Calculates a tf-idf (text frequency - inverse document frequency) score.
@@ -52,5 +52,26 @@ public class Tfidf {
         }
         
         return Math.log( (double) totalDocs / docsContainingTerm);
+    }
+    
+    /**
+     * A wrapper of tfidf() for the Algorithm interface.
+     * @param args  Arguments
+     * @return      Result
+     */
+    @Override
+    public double calculate(Object[] args){
+        if (args.length != 3){
+            throw new IllegalArgumentException();
+        }
+        
+        if (args[0] instanceof String && args[1] instanceof Document && args[2] instanceof Corpus){
+            String token = (String) args[0];
+            Document query = (Document) args[1];
+            Corpus reference = (Corpus) args[2];
+            return tfidf(token, query, reference);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 }
