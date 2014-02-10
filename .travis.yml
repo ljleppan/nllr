@@ -1,2 +1,2 @@
 language: java
-script: sh -c 'cd nllr' && mvn test
+script: sh -c 'cd ./nllr' && mvn test
