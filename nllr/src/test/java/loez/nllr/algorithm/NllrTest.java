@@ -110,6 +110,42 @@ public class NllrTest{
                 equal(expected, actual));
     }
     
+    @Test
+    public void calculateTest(){
+        double expected = -2.4234619471003476;
+        
+        Object[] args = {query, candidateB};
+        double actual = nllr.calculate(args);
+                
+        assertTrue("calculate() result didn't match NLLR calculation #2 result. Expected "+ expected +" got "+ actual,
+                equal(expected, actual));
+    } 
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateTooFewArgs(){
+        Object[] args = {query};
+        nllr.calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateTooManyArgs(){
+        Object[] args = {query, candidateB, candidateA};
+        nllr.calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateWrongArgTypes1(){
+        Object[] args = {null, candidateB};
+        nllr.calculate(args);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void calculateWrongArgTypes2(){
+        Object[] args = {query, null};
+        nllr.calculate(args);
+    }
+
+    
     public boolean equal(double a, double b){
         double epsilon = 0.00000001;
         return Math.abs(a - b) < epsilon;
