@@ -33,12 +33,12 @@ public class CorpusTest{
         docs.add(docA);
         docs.add(docB);
         
-        corpus = new Corpus(date, date, docs);
+        corpus = new Corpus(docs);
     }
     
     @Test
     public void testDatelessConstructorGenerateDates(){
-        Corpus c = new Corpus(null, null, docs);
+        Corpus c = new Corpus(docs);
         assertNotNull("When creating a corpus without dates, the end date should not be null.",
                 c.getEndDate());
         assertNotNull("When creating a corpus without dates, the start date should not be null.",
@@ -55,7 +55,7 @@ public class CorpusTest{
     public void testGet(){       
         ArrayList<Document> docList = new ArrayList<>();
         docList.add(docA);
-        Corpus c = new Corpus(null, null, docList);
+        Corpus c = new Corpus(docList);
         
         assertEquals("Getting the only document should return the only document.",
                 c.get(0), docA);
@@ -104,19 +104,26 @@ public class CorpusTest{
         
         Calendar first = new GregorianCalendar();
         first.set(2001, 1, 1);
+        clearDate(first);
+        
         Calendar second = new GregorianCalendar();
         second.set(2002, 1, 1);
+        clearDate(second);
+        
         Calendar third = new GregorianCalendar();
         third.set(2003, 1, 1);
+        clearDate(third);
+        
         Calendar fourth = new GregorianCalendar();
         fourth.set(2004, 1, 1);
+        clearDate(fourth);
         
         ArrayList<Document> cDocs = new ArrayList<>();
-        cDocs.add(new Document(second, body));
-        cDocs.add(new Document(third, body));
+        cDocs.add(new Document((Calendar) second.clone(), body));
+        cDocs.add(new Document((Calendar) third.clone(), body));
         
-        Corpus c = new Corpus(second, third, cDocs);
-        Document d1 = new Document(second, body);
+        Corpus c = new Corpus(cDocs);
+        Document d1 = new Document((Calendar) second.clone(), body);
         
         c.add(d1);
         assertTrue("Adding a document with timestamp equal to corpus start timestamp doesn't change corpus timestamps",
@@ -162,7 +169,7 @@ public class CorpusTest{
         assertTrue("getDocuments should return an arraylist",
                 corpus.getDocuments() instanceof ArrayList);
         assertTrue("getDocuments should return ArrayList even when no documents were added",
-                new Corpus(null, null, null).getDocuments() instanceof ArrayList);
+                new Corpus().getDocuments() instanceof ArrayList);
     }
     
     @Test
@@ -180,5 +187,12 @@ public class CorpusTest{
         return (a.get(Calendar.YEAR) == b.get(Calendar.YEAR)
                 && a.get(Calendar.MONTH) == b.get(Calendar.MONTH)
                 && a.get(Calendar.DAY_OF_MONTH) == b.get(Calendar.DAY_OF_MONTH));
+    }
+    
+    private void clearDate(Calendar date){
+        date.clear(Calendar.HOUR);
+        date.clear(Calendar.MINUTE);
+        date.clear(Calendar.SECOND);
+        date.clear(Calendar.MILLISECOND);
     }
 }
