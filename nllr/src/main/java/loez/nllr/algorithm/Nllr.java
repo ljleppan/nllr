@@ -72,9 +72,9 @@ public class Nllr implements Algorithm{
             throw new IllegalArgumentException();
         }
         
-        if (args[0] instanceof Document && args[1] instanceof Corpus){
-            Document query = (Document) args[0];
-            Corpus candidate = (Corpus) args[1];
+        if (args[1] instanceof Document && args[0] instanceof Corpus){
+            Document query = (Document) args[1];
+            Corpus candidate = (Corpus) args[0];
             
             return calculateNllr(query, candidate);
         } else {
