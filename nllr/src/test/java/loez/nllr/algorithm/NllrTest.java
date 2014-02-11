@@ -36,17 +36,17 @@ public class NllrTest{
         refDocs.add(docB); 
         refDocs.add(docC); 
         refDocs.add(docD);
-        reference = new Corpus(null, null, refDocs);
+        reference = new Corpus(refDocs);
         
         ArrayList<Document> candADocs = new ArrayList<>();
         candADocs.add(docA);
         candADocs.add(docB);
-        candidateA = new Corpus(null, null, candADocs);
+        candidateA = new Corpus(candADocs);
         
         ArrayList<Document> candBDocs = new ArrayList<>();
         candBDocs.add(docC);
         candBDocs.add(docD);
-        candidateB = new Corpus(null, null, candBDocs);
+        candidateB = new Corpus(candBDocs);
         
         query = new Document(null, "token token hässäkkä auto joskus");
         
