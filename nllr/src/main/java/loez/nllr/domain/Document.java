@@ -23,6 +23,13 @@ public class Document implements BagOfWords{
         this.body = body;
         this.date = date;
         
+        if (this.date != null){
+            this.date.clear(Calendar.HOUR);
+            this.date.clear(Calendar.MINUTE);
+            this.date.clear(Calendar.SECOND);
+            this.date.clear(Calendar.MILLISECOND);
+        }
+        
         this.tokenAmounts = new HashMap<>();
         this.numTokens = 0;
         
