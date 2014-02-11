@@ -13,31 +13,20 @@ import loez.nllr.datastructure.HashSet;
  */
 public class Corpus implements BagOfWords{
     private ArrayList<Document> documents = new ArrayList<>();
-    private Calendar startDate = new GregorianCalendar();
-    private Calendar endDate = new GregorianCalendar();
+    private Calendar startDate;
+    private Calendar endDate;
     private int totalTokens;
     private HashMap<String, Integer> tokenFrequensies;
     
     /**
-     * Creates a new corpus with known first and final dates of the included documents.
-     * @param startDate The earliest date of creation for the corpus documents.
-     * @param endDate   The latest date of creation for the corpus documents.
+     * Creates a new corpus from a list of documents.
      * @param documents The documents the corpus is comprised of.
      */
-    public Corpus(Calendar startDate, Calendar endDate, ArrayList<Document> documents){
-        if (startDate != null){
-            this.startDate = startDate;
-        }
-        if (endDate != null){
-            this.endDate = endDate;
-        }
+    public Corpus(ArrayList<Document> documents){
         if (documents != null){
             this.documents = documents;
         }
 
-        this.tokenFrequensies = new HashMap<>();
-        totalTokens = 0;
-        
         refreshStats();
     }
     
@@ -45,7 +34,7 @@ public class Corpus implements BagOfWords{
      * Create an empty corpus.
      */
     public Corpus(){
-        this(null, null, new ArrayList<Document>());
+        this(new ArrayList<Document>());
     }
     
     /**
@@ -102,16 +91,35 @@ public class Corpus implements BagOfWords{
         }
         return 0;
     }
+    
+    public Corpus getTimePartition(Calendar start, Calendar end){
+        start.clear(Calendar.HOUR);
+        start.clear(Calendar.MINUTE);
+        start.clear(Calendar.SECOND);
+        end.clear(Calendar.HOUR);
+        end.clear(Calendar.MINUTE);
+        end.clear(Calendar.SECOND);
+        
+        Corpus timePartition = new Corpus();
+        for (Document d : documents){
+            if (!d.getDate().before(start) && !d.getDate().after(end)){
+                timePartition.add(d);
+            }
+        }
+        return timePartition;
+    }
 
     private void refreshStats() {
         totalTokens = 0;
         tokenFrequensies = new HashMap<>();
         
-        for (Document doc : documents){
-            refreshDates(doc);
-            refreshFrequencies(doc);
-            totalTokens += doc.getTotalTokens();
-        }
+        if (!documents.isEmpty()){
+            for (Document doc : documents){
+                refreshDates(doc);
+                refreshFrequencies(doc);
+                totalTokens += doc.getTotalTokens();
+            }
+        }        
     }
 
     private void refreshFrequencies(Document doc) {
@@ -129,8 +137,14 @@ public class Corpus implements BagOfWords{
 
     private void refreshDates(Document doc) {
         if (doc.getDate() != null){
-            if (getStartDate().after(doc.getDate())){
+            if (this.startDate == null){
+                this.startDate = (Calendar) documents.get(0).getDate().clone();
+            } else if (getStartDate().after(doc.getDate())){
                 startDate.setTime(doc.getDate().getTime());
+            }
+            
+            if (this.endDate == null){
+                this.endDate = (Calendar) documents.get(0).getDate().clone();
             } else if (getEndDate().before(doc.getDate())){
                 endDate.setTime(doc.getDate().getTime());
             }
