@@ -1,5 +1,7 @@
 from lxml import etree
 from lxml import html
+import os
+
 
 file_nums = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', 
              '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
@@ -10,6 +12,8 @@ types = ['TRAIN', 'TEST']
 
 for type in types:
   print type
+  if not os.path.exists(os.path.dirname("reuters-fixed/")):
+    os.makedirs(os.path.dirname("reuters-fixed/"))
   file_out = file_out_path = "reuters-fixed/" + type + ".csv"
   file_out = open(file_out_path, "w")
 
