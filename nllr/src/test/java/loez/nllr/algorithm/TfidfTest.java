@@ -32,7 +32,7 @@ public class TfidfTest{
         refDocs.add(docB); 
         refDocs.add(docC); 
         refDocs.add(docD);
-        reference = new Corpus(null, null, refDocs);
+        reference = new Corpus(refDocs);
     }
     
     @Test
