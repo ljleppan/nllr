@@ -114,7 +114,7 @@ public class NllrTest{
     public void calculateTest(){
         double expected = -2.4234619471003476;
         
-        Object[] args = {query, candidateB};
+        Object[] args = {candidateB, query};
         double actual = nllr.calculate(args);
                 
         assertTrue("calculate() result didn't match NLLR calculation #2 result. Expected "+ expected +" got "+ actual,
