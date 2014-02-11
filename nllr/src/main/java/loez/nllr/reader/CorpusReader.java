@@ -25,12 +25,16 @@ public class CorpusReader {
         try(BufferedReader in = new BufferedReader(new FileReader(path))) {
             String rawDocumentString;
             Corpus corpus = new Corpus();
-            
+            System.out.println("Parsing corpus");
+            int i = 0;
             while ((rawDocumentString = in.readLine()) != null){
+                System.out.print("Document "+ (++i) +" ... ");
                 Document document = DocumentConverter.rawStringToDocument(rawDocumentString, dateFormat, preprocessor);
                 if (document != null){
                     corpus.add(document);
+                    System.out.print("succesfull.");
                 }
+                System.out.println("");
             }
 
             return corpus;
