@@ -12,6 +12,8 @@ import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 import loez.nllr.preprocessor.PreProcessor;
+import loez.nllr.preprocessor.SimplePreprocessor;
+import loez.nllr.preprocessor.exception.StemmerCreationException;
 import loez.nllr.reader.CorpusReader;
 
 /**
@@ -41,6 +43,7 @@ public class CommandLineInterface implements UserInterface{
     public void run() {
         getDateFormat(); 
         getPreprocessor();
+        getLanguage();
         getCorpusReader();
         getReferenceCorpus();
         getTimePartitionSize();
@@ -68,8 +71,7 @@ public class CommandLineInterface implements UserInterface{
     }
 
     private void getDateFormat() {
-        System.out.print("Set date format: ");
-        String dateFormatString = in.nextLine();
+        String dateFormatString = queryFor("Set date format:");
         if (dateFormatString.isEmpty()){
             dateFormatString = DEFAULT_DATE_STRING;
         }
@@ -78,10 +80,11 @@ public class CommandLineInterface implements UserInterface{
     
     private void getPreprocessor(){       
         printPreProcessorPrompt();
+        printCommandPrompt();
         String preprocessorString = in.nextLine();
         
         while (!preProcessorNames.contains(preprocessorString.toLowerCase().trim())){
-            System.out.println("No such preprocessor. ");
+            System.out.println("\tNo such preprocessor. ");
             printPreProcessorPrompt();
             preprocessorString = in.nextLine();
         }
@@ -95,7 +98,19 @@ public class CommandLineInterface implements UserInterface{
         for (int i = 1; i < preProcessorNames.size(); i++) {
             System.out.print(", "+preProcessorNames.get(i));
         }
-        System.out.print("]: ");
+        System.out.println("]: ");
+    }
+    
+    private void getLanguage() {
+        if (!(preProcessor instanceof SimplePreprocessor)){
+            String language = queryFor("Set language:");
+            try {
+                preProcessor.setLanguage(language);
+            } catch (StemmerCreationException e){
+                System.out.println("\tSomething went wrong, attempting to use default language ...");
+            }
+            System.out.println("\tLanguage set to "+preProcessor.getLanguage());
+        }
     }
     
     private void getCorpusReader() {
@@ -103,19 +118,19 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void getReferenceCorpus(){
-        System.out.print("Set path to reference corpus: ");
-        String referenceCorpusPath = in.nextLine();
+        String referenceCorpusPath = queryFor("Set path to reference corpus:");
         processReferenceCorpus(referenceCorpusPath);        
     }
 
     private void processReferenceCorpus(String referenceCorpusPath) {
-        System.out.print("\nProcessing reference corpus (this might take long) ... ");
+        System.out.println("\tProcessing reference corpus (this might take long) ... ");
         referenceCorpus = corpusReader.readCorpus(referenceCorpusPath, dateFormat, preProcessor);
-        System.out.println("Done processing reference corpus. \n");
+        System.out.println("\tDone processing reference corpus. \n");
     }
     
     private void getTimePartitionSize(){
         printTimePartitionSizePrompt();
+        printCommandPrompt();
         String input = in.nextLine();
         while (!input.toLowerCase().trim().equals("daily")){
             System.out.println("Invalid time partition size.");
@@ -125,7 +140,7 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void printTimePartitionSizePrompt() {
-        System.out.print("Set time partiotion size [daily]: ");
+        System.out.println("Set time partiotion size [daily]: ");
     }
 
     private void processTimePartitions(){
@@ -180,6 +195,13 @@ public class CommandLineInterface implements UserInterface{
         System.out.println("\thelp   -- Shows this help.");
     }
     
+    private String queryFor(String query){
+        System.out.println(query);
+        printCommandPrompt();
+        String command = in.nextLine();
+        return command;
+    }
+    
     private void printCommandPrompt(){
         System.out.print(" > ");
     }
@@ -194,8 +216,7 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void processInput(){
-        System.out.println("Input text body:");
-        String raw = in.nextLine();
+        String raw = queryFor("Input text body:");
         
         String body = preProcessor.process(raw);
         System.out.println("Processed text:");
