@@ -18,4 +18,14 @@ public class SimplePreprocessor implements PreProcessor{
         output = output.trim();
         return output;
     }
+    
+    @Override
+    public void setLanguage(String language){
+        //Do nothing!
+    }
+    
+    @Override
+    public String getLanguage(){
+        return "Simple preprocessor is language independent";
+    }
 }
