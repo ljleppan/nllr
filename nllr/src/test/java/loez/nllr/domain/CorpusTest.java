@@ -183,6 +183,53 @@ public class CorpusTest{
                 uniqueTokens.contains("auto"));
     }
     
+    @Test
+    public void testGetTimePartition(){
+        String body = "auto auto asia";
+        
+        Calendar first = new GregorianCalendar();
+        first.set(2001, 1, 1);
+        clearDate(first);
+        
+        Calendar second = new GregorianCalendar();
+        second.set(2002, 1, 1);
+        clearDate(second);
+        
+        Calendar third = new GregorianCalendar();
+        third.set(2003, 1, 1);
+        clearDate(third);
+        
+        Calendar fourth = new GregorianCalendar();
+        fourth.set(2004, 1, 1);
+        clearDate(fourth);
+        
+        ArrayList<Document> cDocs = new ArrayList<>();
+        Document d1 = new Document((Calendar) second.clone(), body);
+        Document d2 = new Document((Calendar) third.clone(), body);
+        Document d3 = new Document((Calendar) fourth.clone(), body);
+        Document d4 = new Document((Calendar) first.clone(), body);
+        cDocs.add(d1);
+        cDocs.add(d2);
+        cDocs.add(d3);
+        cDocs.add(d4);
+        
+        Corpus c = new Corpus(cDocs);
+        
+        assertEquals("Getting from A to A should return the only document with date A",
+                1, c.getTimePartition(first, first).getDocuments().size());
+        assertEquals("Getting from A to B should return documents with dates between A and B, inclusive",
+                2, c.getTimePartition(first, second).getDocuments().size());
+        assertEquals("Getting from A to C should return documents with dates between A and C, inclusive",
+                2, c.getTimePartition(second, third).getDocuments().size());
+        
+        first.set(Calendar.HOUR, 12);
+        first.set(Calendar.MINUTE, 12);
+        first.set(Calendar.SECOND, 12);        
+        assertEquals("getTimePartition should clear hours, minutes and seconds",
+                2, c.getTimePartition(first, second).getDocuments().size());
+        
+    }
+    
     private boolean isSameDate(Calendar a, Calendar b){
         return (a.get(Calendar.YEAR) == b.get(Calendar.YEAR)
                 && a.get(Calendar.MONTH) == b.get(Calendar.MONTH)
