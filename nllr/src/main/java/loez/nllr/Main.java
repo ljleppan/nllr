@@ -5,8 +5,6 @@ import loez.nllr.preprocessor.PreProcessor;
 import loez.nllr.preprocessor.SimplePreprocessor;
 import loez.nllr.preprocessor.SnowballPreprocessor;
 import loez.nllr.preprocessor.exception.StemmerCreationException;
-import loez.nllr.preprocessor.util.Numeral;
-import loez.nllr.preprocessor.util.Punctuation;
 import loez.nllr.userinterface.CommandLineInterface;
 import loez.nllr.userinterface.UserInterface;
 
@@ -15,8 +13,6 @@ public class Main
 
     public static void main( String[] args ) throws StemmerCreationException
     {       
-        UserInterface ui = new CommandLineInterface();
-        
         ArrayList<String> ppNames = new ArrayList<>();
         ArrayList<PreProcessor> pps = new ArrayList<>();
         
@@ -31,6 +27,7 @@ public class Main
             ppNames.add("snowball");
         } catch (StemmerCreationException e) { }
         
+        UserInterface ui = new CommandLineInterface();
         ui.setupPreprocessors(pps, ppNames);
         ui.run();
     }
