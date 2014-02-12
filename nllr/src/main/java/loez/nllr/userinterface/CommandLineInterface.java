@@ -140,7 +140,7 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void printTimePartitionSizePrompt() {
-        System.out.println("Set time partiotion size [daily]: ");
+        System.out.println("Set time partition size [daily]: ");
     }
 
     private void processTimePartitions(){
