@@ -7,7 +7,7 @@ import loez.nllr.preprocessor.util.Punctuation;
 import org.tartarus.snowball.SnowballProgram;
 
 /**
- * 
+ * A preprocessor that utilizes the Porter2 (Snowball) stemmer.
  * @author ljleppan
  */
 public class SnowballPreprocessor implements PreProcessor{
@@ -18,6 +18,11 @@ public class SnowballPreprocessor implements PreProcessor{
     private HashSet<String> languages;
     private String language;
     
+    /**
+     * Creates a new SnowballPreprocessor initialized with a certain language
+     * @param language  The language
+     * @throws StemmerCreationException
+     */
     public SnowballPreprocessor(String language) throws StemmerCreationException{
         languages = new HashSet<>();
         languages.add("English");
@@ -26,15 +31,27 @@ public class SnowballPreprocessor implements PreProcessor{
         tryToSetLanguage(language);
     }
     
+    /**
+     * Creates a new SnowballPreprocessor with the default language.
+     * @throws StemmerCreationException
+     */
     public SnowballPreprocessor() throws StemmerCreationException{
         this("default");
     }
     
+    /**
+     * Sets the language of the Stemmer
+     * @param language  The new language
+     * @throws StemmerCreationException
+     */
     @Override
     public void setLanguage(String language) throws StemmerCreationException{
         tryToSetLanguage(language);
     }
     
+    /**
+     * @return The language this preprocessor is set to use.
+     */
     @Override
     public String getLanguage(){
         return this.language;
