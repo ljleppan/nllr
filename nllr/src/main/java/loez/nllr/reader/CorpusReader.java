@@ -31,6 +31,7 @@ public class CorpusReader {
                     corpus.add(document);
                 }
             }
+            corpus.refreshStats();
             return corpus;
         } catch (IOException e) {
             return null;
