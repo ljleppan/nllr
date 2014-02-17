@@ -88,6 +88,10 @@ public class HashSet<E> implements Iterable<E>{
     public boolean isEmpty(){
         return size == 0;
     }
+    
+    public ArrayList<E> toArrayList(){
+        return map.keySet();
+    }
 
     @Override
     public Iterator<E> iterator() {
