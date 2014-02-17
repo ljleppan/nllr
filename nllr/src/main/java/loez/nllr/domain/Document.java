@@ -95,6 +95,11 @@ public class Document implements BagOfWords{
         return uniqueTokens;
     }
     
+    /**
+     * Checks if a token is present in the document.
+     * @param token Token to look for
+     * @return      True if token is present, false if not
+     */
     @Override
     public boolean containsToken(String token){
         return tokenAmounts.containsKey(token);
