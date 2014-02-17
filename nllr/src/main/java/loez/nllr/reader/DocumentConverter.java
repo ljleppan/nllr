@@ -34,7 +34,7 @@ public class DocumentConverter {
             date = new GregorianCalendar();
             date.setTime(dDate);
         } catch (ParseException ex) {
-            
+            return null;
         }
         
         StringBuilder body = new StringBuilder();
