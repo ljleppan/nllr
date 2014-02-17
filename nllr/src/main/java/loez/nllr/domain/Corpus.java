@@ -91,11 +91,22 @@ public class Corpus implements BagOfWords{
         return 0;
     }
     
+    /**
+     * Checks if a token is present in the corpus.
+     * @param token Token to look for.
+     * @return      True if token is present in the Corpus.
+     */
     @Override
     public boolean containsToken(String token){
         return tokenFrequensies.containsKey(token);
     }
     
+    /**
+     * Creates a sub-corpus of all the documents that were created between start and end dates.
+     * @param start Start date, inclusive
+     * @param end   End date, inclusive
+     * @return      Corpus containing relevant documents
+     */
     public Corpus getTimePartition(Calendar start, Calendar end){
         Corpus timePartition = new Corpus();
         for (Document d : documents){
@@ -107,6 +118,9 @@ public class Corpus implements BagOfWords{
         return timePartition;
     }
 
+    /**
+     * Refreshes the stats of the corpus.
+     */
     public void refreshStats() {
         totalTokens = 0;
         tokenFrequensies = new HashMap<>();
@@ -122,6 +136,11 @@ public class Corpus implements BagOfWords{
         }        
     }
     
+    /**
+     * Returns the number of documents in this corpus that contain the queried token.
+     * @param token Token
+     * @return      Number of documents containing token
+     */
     public int numOfDocsContainingToken(String token){
         return numOfDocumentsContainingToken.get(token);
     }
