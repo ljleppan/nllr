@@ -72,6 +72,7 @@ public class CorpusTest{
     @Test
     public void testRemove(){
         corpus.remove(0);
+        corpus.refreshStats();
         assertNotSame("Removing a document updates the stats",
                 corpus.getTotalTokens(), 8);
         assertNull("Removing a document removes the document",
@@ -126,31 +127,37 @@ public class CorpusTest{
         Document d1 = new Document((Calendar) second.clone(), body);
         
         c.add(d1);
+        c.refreshStats();
         assertTrue("Adding a document with timestamp equal to corpus start timestamp doesn't change corpus timestamps",
                 isSameDate(c.getStartDate(), second) && isSameDate(c.getEndDate(), third));
         
         Document d2 = new Document(third, body);
         c.add(d2);
+        c.refreshStats();
         assertTrue("Adding a document with timestamp equal to corpus end timestamp doesn't change corpus timestamps",
                 isSameDate(c.getStartDate(), second) && isSameDate(c.getEndDate(), third));
         
         Document d3 = new Document(first, body);
         c.add(d3);
+        c.refreshStats();
         assertTrue("Adding a document with timestamp before the corpus start timestamp changes corpus start timestamp",
                 isSameDate(c.getStartDate(), first) && isSameDate(c.getEndDate(), third));
         
         Document d4 = new Document(fourth, body);
         c.add(d4);
+        c.refreshStats();
         assertTrue("Adding a document with timestamp after the corpus end timestamp changes corpus end timestamp",
                 isSameDate(c.getStartDate(), first) && isSameDate(c.getEndDate(), fourth));
         
         Document d5 = new Document(second, body);
         c.add(d5);
+        c.refreshStats();
         assertTrue("Adding a document with timestamp within the corpus start and end timestamp doesn't changes corpus timestamps",
                 isSameDate(c.getStartDate(), first) && isSameDate(c.getEndDate(), fourth));
         
         Document d6 = new Document(null, body);
         c.add(d6);
+        c.refreshStats();
         assertTrue("Adding a document with null timestamp doesn't change corpus timestamps",
                 isSameDate(c.getStartDate(), first) && isSameDate(c.getEndDate(), fourth));
     }
@@ -160,6 +167,7 @@ public class CorpusTest{
         int tokensBefore = corpus.getTotalTokens();
         Document doc = new Document(null, "auto testo");
         corpus.add(doc);
+        corpus.refreshStats();
         assertEquals("Adding a document updates the total number of tokens correctly",
                 corpus.getTotalTokens(), tokensBefore + 2);
     }
