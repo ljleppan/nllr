@@ -100,7 +100,7 @@ public class CommandLineInterfaceTest {
         assertTrue(out.contains("Set time partition size"));
         assertTrue(out.contains("daily"));
         assertTrue(out.contains("Getting time partitions for the reference corpus spanning 8-Apr-1987 to 13-Apr-1987"));
-        assertTrue(out.contains("\t8-Apr-1987 - 8-Apr-1987\n\t9-Apr-1987 - 9-Apr-1987\n\t10-Apr-1987 - 10-Apr-1987\n\t11-Apr-1987 - 11-Apr-1987\n\t12-Apr-1987 - 12-Apr-1987\n\t13-Apr-1987 - 13-Apr-1987"));
+        assertTrue(out.contains("\t8-Apr-1987 - 8-Apr-1987 (2 documents)\n\t9-Apr-1987 - 9-Apr-1987 (1 documents)\n\t10-Apr-1987 - 10-Apr-1987 (2 documents)\n\t11-Apr-1987 - 11-Apr-1987 (2 documents)\n\t12-Apr-1987 - 12-Apr-1987 (2 documents)\n\t13-Apr-1987 - 13-Apr-1987 (2 documents)"));
         assertTrue(out.contains("Done building time partitions."));
         assertTrue(out.contains("Known commands:"));
         assertTrue(out.contains("random -- Processes a random document from the Reference corpus."));
