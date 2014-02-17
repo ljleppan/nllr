@@ -7,10 +7,12 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 import loez.nllr.algorithm.Argmax;
+import loez.nllr.algorithm.Argmax.Result;
 import loez.nllr.algorithm.Nllr;
 import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
+import loez.nllr.domain.TimeSpan;
 import loez.nllr.preprocessor.PreProcessor;
 import loez.nllr.preprocessor.SimplePreprocessor;
 import loez.nllr.preprocessor.exception.StemmerCreationException;
@@ -26,10 +28,15 @@ public class CommandLineInterface implements UserInterface{
     private ArrayList<String> preProcessorNames;
     private ArrayList<PreProcessor> preProcessors;
     private PreProcessor preProcessor;
+    private TimeSpan timeSpan;
     private CorpusReader corpusReader;
     private Corpus referenceCorpus;
-    private ArrayList<Object> timePartitions;
+    private Corpus testCorpus;
+    private ArrayList<Corpus> timePartitions;
     private Nllr nllr;
+    
+    private int correct = 0;
+    private int wrong = 0;
     
     private static final String DEFAULT_DATE_STRING = "d-MMM-yyyy";
     
@@ -64,8 +71,14 @@ public class CommandLineInterface implements UserInterface{
             if (input.equals("random")){
                 processRandom();
             }
-            if (input.equals("in")){
-                processInput();
+            if (input.equals("single")){
+                processSingle();
+            }
+            if (input.equals("corpus")){
+                processMultiple();
+            }
+            if (input.startsWith("set")){
+                processSet(input);
             }
         }
     }
@@ -94,8 +107,8 @@ public class CommandLineInterface implements UserInterface{
     }
 
     private void printPreProcessorPrompt() {
-        System.out.print("Set preprocessor ["+preProcessorNames.get(0));
-        for (int i = 1; i < preProcessorNames.size(); i++) {
+        System.out.print("Set preprocessor ["+preProcessorNames.get(1));
+        for (int i = 2; i < preProcessorNames.size(); i++) {
             System.out.print(", "+preProcessorNames.get(i));
         }
         System.out.println("]: ");
@@ -129,18 +142,37 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void getTimePartitionSize(){
-        printTimePartitionSizePrompt();
-        printCommandPrompt();
-        String input = in.nextLine();
-        while (!input.toLowerCase().trim().equals("daily")){
-            System.out.println("Invalid time partition size.");
+        while (true){ 
             printTimePartitionSizePrompt();
-            input = in.nextLine();
+            printCommandPrompt();
+            String input = in.nextLine().trim().toLowerCase();
+            if (input.equals("") || input.equals("daily")){
+                timeSpan = new TimeSpan(referenceCorpus.getStartDate(), TimeSpan.Length.DAILY);
+                break;
+            }
+            if(input.equals("weekly")){
+                timeSpan = new TimeSpan(referenceCorpus.getStartDate(), TimeSpan.Length.WEEKLY);
+                break;
+            }
+            if(input.equals("biweekly")){
+                timeSpan = new TimeSpan(referenceCorpus.getStartDate(), TimeSpan.Length.BIWEEKLY);
+                break;
+            }
+            if(input.equals("monthly")){
+                timeSpan = new TimeSpan(referenceCorpus.getStartDate(), TimeSpan.Length.MONTHLY);
+                break;
+            }
+            if(input.equals("yearly")){
+                timeSpan = new TimeSpan(referenceCorpus.getStartDate(), TimeSpan.Length.YEARLY);
+                break;
+            }
+            
+            System.out.println("\tInvalid time partition size.");
         }        
     }
     
     private void printTimePartitionSizePrompt() {
-        System.out.println("Set time partition size [daily]: ");
+        System.out.println("Set time partition size [daily, weekly, biweekly, monthly, yearly]: ");
     }
 
     private void processTimePartitions(){
@@ -150,22 +182,12 @@ public class CommandLineInterface implements UserInterface{
         Calendar endDate = (Calendar) referenceCorpus.getEndDate().clone();
         
         System.out.println("Getting time partitions for the reference corpus spanning "+ dateFormat.format(startDate.getTime()) + " to " + dateFormat.format(endDate.getTime())+" :");
-        Calendar partitionStartDate = (Calendar) referenceCorpus.getStartDate().clone();
-        clearDate(partitionStartDate);
-        
-        Calendar partitionEndDate = (Calendar) referenceCorpus.getStartDate().clone();
-        partitionEndDate.add(Calendar.DAY_OF_MONTH, 1);
-        clearDate(partitionEndDate);
-        
-        while (!endDate.before(partitionEndDate)){
-            processSingleTimepartition(partitionStartDate, partitionEndDate);
-
-            partitionStartDate.add(Calendar.DAY_OF_MONTH, 1);
-            partitionEndDate.add(Calendar.DAY_OF_MONTH, 1);
+                
+        while (!timeSpan.getStart().after(endDate)){
+            processSingleTimepartition(timeSpan.getStart(), timeSpan.getEnd());
+            timeSpan.advance();
         }
         System.out.println("Done building time partitions.\n");
-        
-    
     }
 
     private void clearDate(Calendar date) {
@@ -175,11 +197,14 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void processSingleTimepartition(Calendar partitionStartDate, Calendar partitionEndDate){     
-        System.out.println("\t"+dateFormat.format(partitionStartDate.getTime()) + " - " +dateFormat.format(partitionEndDate.getTime()));        
+        System.out.print("\t"+dateFormat.format(partitionStartDate.getTime()) + " - " +dateFormat.format(partitionEndDate.getTime()));        
         Corpus timePartition = referenceCorpus.getTimePartition(partitionStartDate, partitionEndDate);
         
-        if (timePartition != null){
+        if (!timePartition.getDocuments().isEmpty()){
                 timePartitions.add(timePartition);
+                System.out.println(" ("+timePartition.getDocuments().size()+" documents)");
+        } else {
+            System.out.println(" Partition was empty, skipping.");
         }
     }
     
@@ -190,9 +215,10 @@ public class CommandLineInterface implements UserInterface{
     private void printCommands(){
         System.out.println("Known commands:");
         System.out.println("\trandom -- Processes a random document from the Reference corpus.");
-        System.out.println("\tin     -- Input custom text for processing.");
-        System.out.println("\tquit   -- Quits the application.");
+        System.out.println("\tsingle -- Input custom text for processing.");
+        System.out.println("\tcorpus -- Process a test corpus.");
         System.out.println("\thelp   -- Shows this help.");
+        System.out.println("\tquit   -- Quits the application.");
     }
     
     private String queryFor(String query){
@@ -211,11 +237,11 @@ public class CommandLineInterface implements UserInterface{
         int randomDocumentId = new Random().nextInt(referenceCorpusSize);
         Document document = referenceCorpus.getDocuments().get(randomDocumentId);
         
-        System.out.println("Random document #"+randomDocumentId + " (real date "+dateFormat.format(document.getDate().getTime())+ ")");
+        System.out.println("Random document #"+randomDocumentId);
         processDocument(document);
     }
     
-    private void processInput(){
+    private void processSingle(){
         String raw = queryFor("Input text body:");
         
         String body = preProcessor.process(raw);
@@ -226,16 +252,32 @@ public class CommandLineInterface implements UserInterface{
         processDocument(document);
     }
     
-    private void processDocument(Document document){
-        System.out.print("Processing document ... ");
-        
+    private void processMultiple(){
+        getTestCorpus();
+        for (Document document : testCorpus.getDocuments()){
+            processDocument(document);
+        }
+        System.out.println("Correct: "+correct + ", Wrong:" + wrong);
+    }
+    
+    private void getTestCorpus(){
+        String testCorpusPath = queryFor("Set path to test corpus:");
+        processTestCorpus(testCorpusPath);        
+    }
+
+    private void processTestCorpus(String testCorpusPath) {
+        System.out.println("\tProcessing test corpus (this might take long) ... ");
+        testCorpus = corpusReader.readCorpus(testCorpusPath, dateFormat, preProcessor);
+        System.out.println("\tDone processing test corpus. \n");
+    }
+    
+    private void processDocument(Document document){        
         Object[] argMaxArgs = {document};
-        Object[] result = Argmax.single(nllr, timePartitions, argMaxArgs);
+        Result<Corpus> result = new Argmax<Corpus>().single(nllr, timePartitions, argMaxArgs);
         
-        Corpus resultCorpus = (Corpus) result[0];
-        double resultNllr = (double) result[1];
-        
-        System.out.println(" done.");
+        Corpus resultCorpus = result.getArgument();
+        double resultNllr = result.getValue();
+
         printResult(document, resultCorpus, resultNllr);
     }
         
@@ -255,8 +297,16 @@ public class CommandLineInterface implements UserInterface{
             corpEndDate = dateFormat.format(resultCorpus.getEndDate().getTime());
         }
         
+        if (!document.getDate().before(resultCorpus.getStartDate()) && !document.getDate().after(resultCorpus.getEndDate())){
+            correct++;
+        } else {
+            wrong++;
+        }
+        
         StringBuilder out = new StringBuilder();
-        out.append("Most likely time partition:\n\t");
+        out.append("Actual date: ");
+        out.append(docDate);
+        out.append("\n\t");
         out.append(corpStartDate);
         out.append(" - ");
         out.append(corpEndDate);
@@ -265,5 +315,21 @@ public class CommandLineInterface implements UserInterface{
         out.append("\n");
         
         System.out.println(out.toString());
+    }
+    
+    private void processSet(String input){
+        if (input.endsWith("date") || input.endsWith("dateformat")){
+            getDateFormat(); 
+        } else if (input.endsWith("language")){
+            getLanguage();
+        } else if (input.endsWith("preprocessor")){
+            getPreprocessor();
+        } else if (input.endsWith("corpus") || input.endsWith("referencecorpus")){
+            getReferenceCorpus();
+            setupNllr();
+        } else if (input.endsWith("partition") || input.endsWith("size")){
+            getTimePartitionSize();
+            processTimePartitions();
+        }
     }
 }
