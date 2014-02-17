@@ -1,5 +1,6 @@
 package loez.nllr.userinterface;
 
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,7 +46,7 @@ public class CommandLineInterface implements UserInterface{
         this.preProcessors = preProcessors;
         this.preProcessorNames = preProcessorNames;
     }
-
+    
     @Override
     public void run() {
         getDateFormat(); 
@@ -132,13 +133,21 @@ public class CommandLineInterface implements UserInterface{
     
     private void getReferenceCorpus(){
         String referenceCorpusPath = queryFor("Set path to reference corpus:");
-        processReferenceCorpus(referenceCorpusPath);        
+        while (!processReferenceCorpus(referenceCorpusPath)) {
+            System.out.println("File not found.");
+            referenceCorpusPath = queryFor("Set path to reference corpus:");
+        }
     }
 
-    private void processReferenceCorpus(String referenceCorpusPath) {
+    private boolean processReferenceCorpus(String referenceCorpusPath) {
         System.out.println("\tProcessing reference corpus (this might take long) ... ");
-        referenceCorpus = corpusReader.readCorpus(referenceCorpusPath, dateFormat, preProcessor);
+        try{
+            referenceCorpus = corpusReader.readCorpus(referenceCorpusPath, dateFormat, preProcessor);
+        } catch (FileNotFoundException e){
+            return false;
+        }
         System.out.println("\tDone processing reference corpus. \n");
+        return true;
     }
     
     private void getTimePartitionSize(){
@@ -266,13 +275,21 @@ public class CommandLineInterface implements UserInterface{
     
     private void getTestCorpus(){
         String testCorpusPath = queryFor("Set path to test corpus:");
-        processTestCorpus(testCorpusPath);        
+        while (!processTestCorpus(testCorpusPath)){
+            System.out.println("File not found.");
+            testCorpusPath = queryFor("Set path to test corpus:");
+        }        
     }
 
-    private void processTestCorpus(String testCorpusPath) {
+    private boolean processTestCorpus(String testCorpusPath) {
         System.out.println("\tProcessing test corpus (this might take long) ... ");
-        testCorpus = corpusReader.readCorpus(testCorpusPath, dateFormat, preProcessor);
+        try {
+            testCorpus = corpusReader.readCorpus(testCorpusPath, dateFormat, preProcessor);
+        } catch (FileNotFoundException e){
+            return false;
+        }
         System.out.println("\tDone processing test corpus. \n");
+        return true;
     }
     
     private void processDocument(Document document){        
