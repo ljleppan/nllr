@@ -1,6 +1,7 @@
 package loez.nllr.reader;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -21,7 +22,7 @@ public class CorpusReader {
      * @param preprocessor  Preprocessor for processing words to tokens
      * @return              A corpus parsed from the file
      */
-    public Corpus readCorpus(String path, DateFormat dateFormat, PreProcessor preprocessor){
+    public Corpus readCorpus(String path, DateFormat dateFormat, PreProcessor preprocessor) throws FileNotFoundException{
         try(BufferedReader in = new BufferedReader(new FileReader(path))) {
             String rawDocumentString;
             Corpus corpus = new Corpus();
@@ -34,7 +35,7 @@ public class CorpusReader {
             corpus.refreshStats();
             return corpus;
         } catch (IOException e) {
-            return null;
+            throw new FileNotFoundException();
         }
     }
 }
