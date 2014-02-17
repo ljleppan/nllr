@@ -19,7 +19,7 @@ public class SnowballPreprocessor implements PreProcessor{
     private String language;
     
     public SnowballPreprocessor(String language) throws StemmerCreationException{
-        languages = new HashSet<String>();
+        languages = new HashSet<>();
         languages.add("English");
         languages.add("Finnish");
         
