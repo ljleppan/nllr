@@ -140,6 +140,11 @@ public class ArrayList<T>  implements Iterable<T>{
         }
     }
     
+    /**
+     * Sets the value at an index
+     * @param index Index
+     * @param value New value
+     */
     public void set(int index, T value){
         if (index <= size && index >= 0){
             array[index] = value;
