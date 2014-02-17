@@ -1,0 +1,82 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[finnish]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[a4paper,right=3cm,left=3cm,vmargin=3cm]{geometry}
+\linespread{1.6}
+\usepackage[osf,sc]{mathpazo}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\clubpenalty=10000
+\widowpenalty=10000
+
+\author{Leo Leppänen}
+\title{NLLR \\ Testausdokumentti}
+
+\begin{document}
+
+\maketitle
+
+\section{Automaattinen testaus}
+
+Ohjelmalle on luotu kattavat JUnit testit, jotka kattavat lähes kaikki tavalliset (ei-rajapinta) luokat. Testejä on arvioitu jatkuvasti erilaisia metriikoita (Kts. alla) hyväksikäyttäen ja niitä on pyritty parantamaan aktiivisesti mahdollisimman hyvän rivi-, polku- ja mutaatiokattavuuden saavuttamiseksi.
+
+\subsection{Metriikat}
+Projektin testien arviointiin on käytetty PIT:iä ja Coberturaa. Alla on esitetty PIT-testikattavuus 17.02.2014 klo 10:17. 
+
+Cobertura-testikattavuuteen voi tutustua seuraavassa osoitteessa: https://coveralls.io/r/ljleppan/nllr?branch=master
+
+Luokan TimeSpan testikattavuus on muiden luokkien testien sivuvaikutusta, sille ei ollut vielä tämän raportin kirjoitushetkellä kirjoitettu testejä. Luokan CommandLineInterface testikattavuus on heikko, sillä pääosa sen testaamisesta on suoritettu manuaalisesti. Luokkan Main testaamista automaattisesti ei pidetty mielekkäänä, vaan se testautuu käyttöliittyän manuaalisen testaamisen oheistuotteena.
+
+\begin{tabular}{l |c |c |c |r}
+\textbf{Class/Package}		&	\multicolumn{2}{|c}{\textbf{Line Coverage}} & \multicolumn{2}{|c}{\textbf{Mutation Coverage}} \\
+\hline
+loez nllr				&	0\%	 	& 0/14		& 0\%	& 0/8 	\\
+\hspace{10 mm}Main 		&	0\%	 	& 0/14		& 0\%	& 0/8 	\\
+\hline
+loez.nllr.algorithm	&	100\% 	& 89/89 		& 90\%	& 56/62 	\\
+\hspace{10 mm}Argmax			&	100\%	& 43/43		& 84\%	& 31/37 \\
+\hspace{10 mm}Nllr			&	100\%	& 26/26		& 100\% 	& 13/13 \\
+\hspace{10 mm}Tfidf			&	100\%	& 20/20		& 100\%	& 12/12 \\ 
+\hline
+loez.nllr.datastructure&	100\%	& 247/248	& 91\%	& 161/177 \\
+\hspace{10 mm}ArrayList		&	100\%	&	73/73	& 94\%	&	60/64 \\
+\hspace{10 mm}HashMap		&	99\%		&	128/129	& 86\%	&	70/81 \\
+\hspace{10 mm}HashSet		&	100\%	&	46/46	& 97\%	&	31/32 \\
+\hline
+loez.nllr.domain & 88\%	&	126/143 	& 	71\%		&	73/103 \\
+\hspace{10 mm}Corpus	&	100\%	&	64/64	&	96\%		&	41/42 \\
+\hspace{10 mm}Document	&	100\%	&	32/32	&	81\%		&	17/21 \\
+\hspace{10 mm}TimeSpan	&	64\%		&	30/47	&	38\%		&	15/40 \\
+\hline
+loez.nllr.preprocessor & 96\% & 49/51 & 88\% & 15/17 \\
+\hspace{10 mm}SimplePreprocessor & 100\% & 10/10 & 100\% & 2/2 \\
+\hspace{10 mm}SnowballPreprocessor & 95\% & 39/41 & 87\% & 13/15 \\ 
+\hline
+loez.preprocessor.util & 100\% & 6/6 & 100\% & 4/4 \\
+\hspace{10 mm}Numeral & 100\% & 3/3 & 100\% & 2/2 \\
+\hspace{10 mm}Puctuation & 100\% & 3/3 & 100\% & 2/2 \\
+\hline
+loez.nllr.reader & 92\% & 25/28 & 48\% & 12/25 \\
+\hspace{10 mm}CorpusReader & 92\% & 11/12 & 31\% & 5/16 \\
+\hspace{10 mm}DocumentConverter & 88\% & 14/16 & 78\% & 7/9 \\
+\hline
+loez.nllr.userinterface & 71\% & 142/200 & 44\% & 50/114 \\
+\hspace{10 mm}CommandLineInterface & 71\% & 142/200 & 44\% & 50/114 \\
+\hline
+\textbf{Class/Package}		&	\multicolumn{2}{|c}{\textbf{Line Coverage}} & \multicolumn{2}{|c}{\textbf{Mutation Coverage}} \\
+\end{tabular}
+
+\section{Manuaalinen testaus}
+Käyttöliittymän testaus on suoritettu pääosin käsin. Laajaa ja kattavaa testausta ei ole tehty, sillä käyttöliittymä ei ole osa projektin ydinaluetta. Kaikki tavallisen käytön yhteydessä löydetyt bugit on kuitenkin korjattu ja käyttöliittymän hiominen on eräs tämänhetkisiä prioriteetteja.
+
+\end{document}
