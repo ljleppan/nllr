@@ -3,30 +3,75 @@ package loez.nllr.domain;
 import java.util.Calendar;
 
 /**
- *
+ * A timespan
  * @author loezi
  */
 public class TimeSpan {
-    public enum Length {DAILY, WEEKLY, BIWEEKLY, MONTHLY, YEARLY};
+
+    /**
+     * The length of the timespan
+     */
+    public enum Length {
+
+        /**
+         * A single day
+         */
+        DAILY,
+
+        /**
+         * A single week
+         */
+        WEEKLY,
+
+        /**
+         * Two weeks
+         */
+        BIWEEKLY,
+
+        /**
+         * A single month
+         */
+        MONTHLY,
+
+        /**
+         * A single year
+         */
+        YEARLY};
     
     private Calendar startDate;
     private Calendar endDate;
     private final Length length;
     
+    /**
+     * Creates a new timespan.
+     * The actual start date is not necessarily the given start date, but the start date of the time period the given date belongs to.
+     * @param startDate A date that is used to determine the start date of the 
+     * @param length    Length of the time span
+     */
     public TimeSpan(Calendar startDate, Length length){
         this.length = length;
         calculateRealStartDate(startDate);
         calculateEndDate();
     }
     
+    /**
+     * @return The start date of the time span
+     */
     public Calendar getStart(){
         return (Calendar) this.startDate.clone();
     }
     
+    /**
+     * @return The end date of the time span
+     */
     public Calendar getEnd(){
         return (Calendar) this.endDate.clone();
     }
     
+    /**
+     * Advanced the time span to the next equivalent time span.
+     * For Length.DAILY, this is the next day. For Length.BIWEEKLY this is the next two-week period.
+     */
     public void advance(){
         if (length == Length.DAILY){
             startDate.add(Calendar.DATE, 1);
