@@ -1,7 +1,5 @@
 package loez.nllr.algorithm;
 
-
-import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
 
@@ -41,15 +39,8 @@ public class Tfidf implements Algorithm{
      * @return              idf score for the token and the corpus
      */
     public static double idf(Corpus reference, String token) {
-        ArrayList<Document> referenceDocs = reference.getDocuments();  
-        int totalDocs = referenceDocs.size();
-        
-        int docsContainingTerm = 0;
-        for (Document doc : referenceDocs){
-            if (doc.getFrequency(token) != 0){
-                docsContainingTerm++;
-            }
-        }
+        int totalDocs = reference.getDocuments().size();
+        int docsContainingTerm = reference.numOfDocsContainingToken(token);
         
         return Math.log( (double) totalDocs / docsContainingTerm);
     }
