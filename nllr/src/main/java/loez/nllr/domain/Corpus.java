@@ -142,7 +142,11 @@ public class Corpus implements BagOfWords{
      * @return      Number of documents containing token
      */
     public int numOfDocsContainingToken(String token){
-        return numOfDocumentsContainingToken.get(token);
+        if (containsToken(token)){
+            return numOfDocumentsContainingToken.get(token);
+        } else {
+            return 0;
+        }
     }
     
     private void refreshNumberOfDocumentsContainingToken(Document doc) {
