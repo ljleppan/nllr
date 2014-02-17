@@ -253,11 +253,15 @@ public class CommandLineInterface implements UserInterface{
     }
     
     private void processMultiple(){
+        correct = 0;
+        wrong = 0;
         getTestCorpus();
         for (Document document : testCorpus.getDocuments()){
             processDocument(document);
         }
         System.out.println("Correct: "+correct + ", Wrong:" + wrong);
+        correct = 0;
+        wrong = 0;
     }
     
     private void getTestCorpus(){
@@ -297,10 +301,12 @@ public class CommandLineInterface implements UserInterface{
             corpEndDate = dateFormat.format(resultCorpus.getEndDate().getTime());
         }
         
-        if (!document.getDate().before(resultCorpus.getStartDate()) && !document.getDate().after(resultCorpus.getEndDate())){
-            correct++;
-        } else {
-            wrong++;
+        if (document.getDate() != null && resultCorpus.getEndDate() != null && resultCorpus.getStartDate() != null){
+            if (!document.getDate().before(resultCorpus.getStartDate()) && !document.getDate().after(resultCorpus.getEndDate())){
+                correct++;
+            } else {
+                wrong++;
+            }
         }
         
         StringBuilder out = new StringBuilder();
