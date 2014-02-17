@@ -13,6 +13,7 @@ public class Main
 
     public static void main( String[] args ) throws StemmerCreationException
     {       
+        //Add preprocessors
         ArrayList<String> ppNames = new ArrayList<>();
         ArrayList<PreProcessor> pps = new ArrayList<>();
         
@@ -27,6 +28,7 @@ public class Main
             ppNames.add("snowball");
         } catch (StemmerCreationException e) { }
         
+        //Initialize UI
         UserInterface ui = new CommandLineInterface();
         ui.setupPreprocessors(pps, ppNames);
         ui.run();
