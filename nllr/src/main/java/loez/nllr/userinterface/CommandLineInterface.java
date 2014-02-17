@@ -41,12 +41,21 @@ public class CommandLineInterface implements UserInterface{
     
     private static final String DEFAULT_DATE_STRING = "d-MMM-yyyy";
     
+    /**
+     * Sets up possible preprocessors and their names.
+     * A preprocessor and its name should have same index in both lists.
+     * @param preProcessors     ArrayList of preprocessors
+     * @param preProcessorNames ArrayList of names of preprocessor
+     */
     @Override
     public void setupPreprocessors(ArrayList<PreProcessor> preProcessors, ArrayList<String> preProcessorNames){
         this.preProcessors = preProcessors;
         this.preProcessorNames = preProcessorNames;
     }
     
+    /**
+     * Starts up the user interface
+     */
     @Override
     public void run() {
         getDateFormat(); 
