@@ -140,6 +140,12 @@ public class ArrayList<T>  implements Iterable<T>{
         }
     }
     
+    public void set(int index, T value){
+        if (index <= size && index >= 0){
+            array[index] = value;
+        }
+    }
+    
     /**
      * Checks whether an index is a valid for use.
      * @param index The index.
