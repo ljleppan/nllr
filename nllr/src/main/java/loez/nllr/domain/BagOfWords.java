@@ -26,5 +26,9 @@ public interface BagOfWords {
      */
     public HashSet<String> getUniqueTokens();
     
+    /**
+     * @param token A token
+     * @return      True if token is present in the bag, false if not.
+     */
     public boolean containsToken(String token);
 }
