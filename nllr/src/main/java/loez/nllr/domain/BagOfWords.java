@@ -1,5 +1,6 @@
 package loez.nllr.domain;
 
+import loez.nllr.datastructure.HashMap;
 import loez.nllr.datastructure.HashSet;
 
 /**
@@ -24,4 +25,6 @@ public interface BagOfWords {
      * @return  A HashSet containing all unique tokens found in the bag.
      */
     public HashSet<String> getUniqueTokens();
+    
+    public boolean containsToken(String token);
 }
