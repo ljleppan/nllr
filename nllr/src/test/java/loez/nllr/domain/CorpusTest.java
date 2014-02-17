@@ -228,14 +228,7 @@ public class CorpusTest{
         assertEquals("Getting from A to B should return documents with dates between A and B, inclusive",
                 2, c.getTimePartition(first, second).getDocuments().size());
         assertEquals("Getting from A to C should return documents with dates between A and C, inclusive",
-                2, c.getTimePartition(second, third).getDocuments().size());
-        
-        first.set(Calendar.HOUR, 12);
-        first.set(Calendar.MINUTE, 12);
-        first.set(Calendar.SECOND, 12);        
-        assertEquals("getTimePartition should clear hours, minutes and seconds",
-                2, c.getTimePartition(first, second).getDocuments().size());
-        
+                2, c.getTimePartition(second, third).getDocuments().size());        
     }
     
     private boolean isSameDate(Calendar a, Calendar b){
