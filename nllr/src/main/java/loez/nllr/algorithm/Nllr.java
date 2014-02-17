@@ -1,5 +1,7 @@
 package loez.nllr.algorithm;
 
+import loez.nllr.algorithm.Argmax.Result;
+import loez.nllr.datastructure.ArrayList;
 import loez.nllr.domain.BagOfWords;
 import loez.nllr.domain.Corpus;
 import loez.nllr.domain.Document;
@@ -10,6 +12,7 @@ import loez.nllr.domain.Document;
  */
 public class Nllr implements Algorithm{
     private final Corpus corpus;
+    private static final int NUMBER_OF_TOKENS_TO_ANALYZE = 10;
 
     /**
      * A small near-zero constant that is used in place of zero to prevent divisions by zero.
@@ -31,10 +34,19 @@ public class Nllr implements Algorithm{
      * @param candidate The candidate corpus.
      * @return          The NLLR-score for the query document and the candidate corpus.
      */
-    public double calculateNllr(Document query, Corpus candidate){
+    public double calculateNllr(Document query, Corpus candidate){       
         double nllr = 0;
         
-        for (String uniqueToken : query.getUniqueTokens()){
+        Object[] constants = {query, corpus};
+        ArrayList<Result<String>> results = new Argmax().multiple(
+                new Tfidf(),
+                NUMBER_OF_TOKENS_TO_ANALYZE,
+                query.getUniqueTokens().toArrayList(),
+                constants);
+
+        for(Result<String> result : results){
+            String uniqueToken = result.getArgument();
+
             double tokenProbQuery = calculateTokenProbability(uniqueToken, query);
             double tokenProbCandidate = calculateTokenProbability(uniqueToken, candidate);
             double tokenProbCorpus = calculateTokenProbability(uniqueToken, corpus);
