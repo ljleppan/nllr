@@ -95,6 +95,11 @@ public class Document implements BagOfWords{
         return uniqueTokens;
     }
     
+    @Override
+    public boolean containsToken(String token){
+        return tokenAmounts.containsKey(token);
+    }
+    
     /**
      * Get the date of creation of the document.
      * @return The date of creation.
