@@ -25,11 +25,19 @@ public class SimplePreprocessor implements PreProcessor{
         return output;
     }
     
+    /**
+     * A dummy setLanguage() to fulfill the contract of PreProcessor.
+     * Any value set is ignored.
+     * @param language
+     */
     @Override
     public void setLanguage(String language){
         //Do nothing!
     }
     
+    /**
+     * @return The string "Simple preprocessor is language independent".
+     */
     @Override
     public String getLanguage(){
         return "Simple preprocessor is language independent";
