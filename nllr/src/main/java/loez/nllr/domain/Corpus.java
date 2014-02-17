@@ -44,7 +44,6 @@ public class Corpus implements BagOfWords{
     public void add(Document document){
         if (document != null){
             documents.add(document);
-            refreshStats();
         }
     }
     
@@ -67,7 +66,6 @@ public class Corpus implements BagOfWords{
      */
     public void remove(int index){
         documents.remove(index);
-        refreshStats();
     }
 
     /**
@@ -93,23 +91,17 @@ public class Corpus implements BagOfWords{
     }
     
     public Corpus getTimePartition(Calendar start, Calendar end){
-        start.clear(Calendar.HOUR);
-        start.clear(Calendar.MINUTE);
-        start.clear(Calendar.SECOND);
-        end.clear(Calendar.HOUR);
-        end.clear(Calendar.MINUTE);
-        end.clear(Calendar.SECOND);
-        
         Corpus timePartition = new Corpus();
         for (Document d : documents){
             if (!d.getDate().before(start) && !d.getDate().after(end)){
                 timePartition.add(d);
             }
         }
+        timePartition.refreshStats();
         return timePartition;
     }
 
-    private void refreshStats() {
+    public void refreshStats() {
         totalTokens = 0;
         tokenFrequensies = new HashMap<>();
         
