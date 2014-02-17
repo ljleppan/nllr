@@ -17,6 +17,7 @@ public class Corpus implements BagOfWords{
     private Calendar endDate;
     private int totalTokens;
     private HashMap<String, Integer> tokenFrequensies;
+    private HashMap<String, Integer> numOfDocumentsContainingToken;
     
     /**
      * Creates a new corpus from a list of documents.
@@ -90,6 +91,11 @@ public class Corpus implements BagOfWords{
         return 0;
     }
     
+    @Override
+    public boolean containsToken(String token){
+        return tokenFrequensies.containsKey(token);
+    }
+    
     public Corpus getTimePartition(Calendar start, Calendar end){
         Corpus timePartition = new Corpus();
         for (Document d : documents){
@@ -104,14 +110,30 @@ public class Corpus implements BagOfWords{
     public void refreshStats() {
         totalTokens = 0;
         tokenFrequensies = new HashMap<>();
+        numOfDocumentsContainingToken = new HashMap<>();
         
         if (!documents.isEmpty()){
             for (Document doc : documents){
                 refreshDates(doc);
                 refreshFrequencies(doc);
+                refreshNumberOfDocumentsContainingToken(doc);
                 totalTokens += doc.getTotalTokens();
             }
         }        
+    }
+    
+    public int numOfDocsContainingToken(String token){
+        return numOfDocumentsContainingToken.get(token);
+    }
+    
+    private void refreshNumberOfDocumentsContainingToken(Document doc) {
+        for(String token : doc.getUniqueTokens()){
+            int amountNow = 0;
+            if (numOfDocumentsContainingToken.containsKey(token)){
+                amountNow = numOfDocumentsContainingToken.get(token);
+            }
+            numOfDocumentsContainingToken.put(token, amountNow+1);
+        }
     }
 
     private void refreshFrequencies(Document doc) {
