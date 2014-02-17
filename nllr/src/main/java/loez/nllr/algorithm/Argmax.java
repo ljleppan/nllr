@@ -5,22 +5,38 @@ import loez.nllr.datastructure.ArrayList;
 /**
  * An implementation of the argmax algorithm.
  * @author loezi
+ * @param <T>
  */
 public class Argmax<T> {
     
+    /**
+     * An argument - result pair
+     * @param <T>
+     */
     public static class Result<T>{
         private final T argument;
         private final double value;
         
+        /**
+         * Creates a new result
+         * @param argument  The argument that was used
+         * @param value     The result value that was gotten
+         */
         public Result(T argument, double value){
             this.argument = argument;
             this.value = value;
         }
         
+        /**
+         * @return the argument that was used
+         */
         public T getArgument(){
             return argument;
         }
         
+        /**
+         * @return the value that was returned from the algorithm
+         */
         public double getValue(){
             return value;
         }
@@ -53,6 +69,14 @@ public class Argmax<T> {
         return new Result(maxArg, maxVal);
     }
     
+    /**
+     * Calculates argmax for given algorithm and arguments, returning AMOUNT highest arguments
+     * @param algorithm The algorithm
+     * @param amount    Number of results to return
+     * @param args      Arguments to iterate over
+     * @param constants The constants of the algorithm call
+     * @return          A list of the AMOUNT best results
+     */
     public ArrayList<Result<T>> multiple(Algorithm algorithm, int amount, ArrayList<T> args, Object[] constants){
         ArrayList<Result<T>> results = new ArrayList<>();
         
