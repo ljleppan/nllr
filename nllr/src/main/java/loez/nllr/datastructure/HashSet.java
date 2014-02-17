@@ -89,6 +89,9 @@ public class HashSet<E> implements Iterable<E>{
         return size == 0;
     }
     
+    /**
+     * @return ArrayList containing the elements of the HashSet
+     */
     public ArrayList<E> toArrayList(){
         return map.keySet();
     }
