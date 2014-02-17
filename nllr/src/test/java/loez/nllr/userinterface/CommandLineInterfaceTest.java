@@ -79,7 +79,7 @@ public class CommandLineInterfaceTest {
                 + "English\n"
                 + testFile.getAbsolutePath()+"\n"
                 + "daily\n"
-                + "in\n"
+                + "single\n"
                 + "YUGOSLAV WORKERS MAY BE ANGERED BY LOST SUBSIDIES  Yugoslav government plans to stop subsidising loss-making firms will anger hundreds of thousands of workers, Western diplomats said.     The law, proposed by Prime Minister Branko Mikulic, goes into effect on July 1 and aims to end a long-standing practice of supporting unprofitable companies. Under the law, wage cuts will be imposed on losing enterprises, while those failing to recover within a six-month grace period will face liquidation.     The diplomats said Mikulic's attempt to create a market economy is inevitable, but has still come as a shock to those accustomed to government subsidies.     \"It was a bitter pill which had to be swallowed, but if an overdose is taken too abruptly, it may have adverse effects on the system,\" a Western diplomat said.     He said if the law was applied too strictly it would probably provoke a new wave of strikes and unrest.     Yugoslavia was swept by strikes last month following the introduction of a wage-freeze law, later amended to allow more flexibility and some exemptions in what some political analysts saw as a retreat by Mikulic.     But with inflation moving towards 100 pct, trade union leaders have asked how much more deprivation workers can take.     The union leaders said workers thoughout the country are already receiving salaries below limits set under existing law, while others have received no wages at all this year because their employers are unable to pay them.     Workers also complain much of their income is taken in local, state and federal taxes.     Many others are losing their motivation to work and confidence in government as they feel their decision-making powers are being eroded, trade union officials said.     Meanwhile, the official Tanjug news agency reported a paper and cellulose factory at Ivangrad in the Montenegro republic closed yesterday and 2,000 of its workers were given \"temporary leave.\"     Tanjug said the plant had been running at a loss for the 24 years it had been in operation, and its closure was the result of \"economic necessity\" rather than bankruptcy.  REUTER \n"
                 + "help\n"
                 + "random\n"
@@ -100,19 +100,17 @@ public class CommandLineInterfaceTest {
         assertTrue(out.contains("Set time partition size"));
         assertTrue(out.contains("daily"));
         assertTrue(out.contains("Getting time partitions for the reference corpus spanning 8-Apr-1987 to 13-Apr-1987"));
-        assertTrue(out.contains("\t8-Apr-1987 - 9-Apr-1987\n\t9-Apr-1987 - 10-Apr-1987\n\t10-Apr-1987 - 11-Apr-1987\n\t11-Apr-1987 - 12-Apr-1987\n\t12-Apr-1987 - 13-Apr-1987"));
+        assertTrue(out.contains("\t8-Apr-1987 - 8-Apr-1987\n\t9-Apr-1987 - 9-Apr-1987\n\t10-Apr-1987 - 10-Apr-1987\n\t11-Apr-1987 - 11-Apr-1987\n\t12-Apr-1987 - 12-Apr-1987\n\t13-Apr-1987 - 13-Apr-1987"));
         assertTrue(out.contains("Done building time partitions."));
         assertTrue(out.contains("Known commands:"));
         assertTrue(out.contains("random -- Processes a random document from the Reference corpus."));
-        assertTrue(out.contains("in     -- Input custom text for processing."));
+        assertTrue(out.contains("single -- Input custom text for processing."));
         assertTrue(out.contains("quit   -- Quits the application."));
         assertTrue(out.contains("help   -- Shows this help."));
         assertTrue(out.contains("Input text body:"));
         assertTrue(out.contains("Processed text:"));
-        assertTrue(out.contains("Processing document ...  done."));
-        assertTrue(out.contains("Most likely time partition:"));
         assertTrue(out.contains("Random document"));
-        assertTrue(out.contains("(real date"));
+        assertTrue(out.contains("Actual date"));
     }
     
 }
