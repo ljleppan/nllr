@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[finnish]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[a4paper,right=3cm,left=3cm,vmargin=3cm]{geometry}
+\linespread{1.6}
+\usepackage[osf,sc]{mathpazo}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\clubpenalty=10000
+\widowpenalty=10000
+
+\author{Leo Leppänen}
+\title{NLLR \\ Toteutusdokumentti}
+
+\begin{document}
+
+\maketitle
+
+\section{Algoritmit}
+
+\subsection{Argmax.single}
+\subsubsection{Tilavaativuus}
+Tilavaativuus on $\mathcal{O}(1)$, sillä algoritmit käyttää vakiomäärää muuttujia ja tulostaa aina yhden Result-olion.
+
+\subsubsection{Aikavaativuus}
+Argmax suorittaa syötteenään saamansa algoritmin kerran per syötteenä saadun argumenttilistan argumentti, joten aikavaativuus on $\mathcal{O}(A \times n)$, missä $n$ on maksimoitavan argumentin kandidaattien määrä ja $A$ on suoritettavan algoritmin aikavaativuus..
+
+\subsection{Argmax.multiple}
+\subsubsection{Tilavaativuus}
+Tilavaativuus on $\mathcal{O}(n)$, sillä kerrallaan muistissa pidetään korkeintaan $n+1$ Result-oliota sekä vakiomäärää muita muuttujia.
+
+\subsubsection{Aikavaativuus}
+Algoritmi suorittaa syötteenä saadun $A$ aikavaativuuksisen algoritmin $n$ kertaa, jolloin tältä osin aikavaativuus on $\mathcal{O}(A \times n)$. Lisäksi pahimmillaan $n$ kertaa kutsutaan metodia sort(), joka järjestää tuloslistan.
+
+Järjestysalgoritmina toimii InsertionSort. Järjestysalgoritmin valintaan vaikutti uniikki konteksti: jokaisella järjestyskerralla kaikki paitsi yksi alkio ovat valmiina oikeilla paikoillaan. Lisäksi järjestettävät taulukot erittäin pienikokoisia. Näissä tapauksissa InsertionSort on nopein ja tehokkain \footnote{http://dl.acm.org/citation.cfm?doid=359024.359026}. Tässä erityistapauksessamme aikavaativuus on lähempänä $\mathcal{O}(n)$ kuin $\mathcal{O}(n^2)$ ja tilavaativuus on $\mathcal{O}(1)$.
+
+\subsection{NLLR}
+\subsubsection{Tilavaativuus}
+$\mathcal{O}(1)$, sillä algoritmi käyttää syötteensä lisäksi vain vakiomäärän tilaa bestTokens-taulukon sekä välitulokset tallentavien muuttujien muodossa.
+\subsubsection{Aikavaativuus}
+Algoritmi määrittää aluksi Argmax:lla vakiomäärän parhaan TF-IDF arvon saavia sanoja, joille sen jälkeen kullekin suoritetaan useita $\mathcal{O}(1)$ aikavaativuuksisia calculateTokenPropability-komentoja. Täten aikavaativuus on sama kuin  
+\subsection{TFIDF}
+\subsubsection{Tilavaativuus}
+\subsubsection{Aikavaativuus}
+
+
+
+\section{Tietorakenteet}
+
+\subsection{ArrayList}
+\subsubsection{Tilavaativuus}
+\subsubsection{Aikavaativuus}
+
+\subsection{HashMap}
+\subsubsection{Tilavaativuus}
+\subsubsection{Aikavaativuus}
+
+\subsection{HashSet}
+\subsubsection{Tilavaativuus}
+\subsubsection{Aikavaativuus}
+
+\end{document}
