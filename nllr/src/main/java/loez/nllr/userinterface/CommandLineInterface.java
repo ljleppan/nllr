@@ -87,9 +87,6 @@ public class CommandLineInterface implements UserInterface{
             if (input.equals("corpus")){
                 processMultiple();
             }
-            if (input.startsWith("set")){
-                processSet(input);
-            }
         }
     }
 
@@ -347,21 +344,5 @@ public class CommandLineInterface implements UserInterface{
         out.append("\n");
         
         System.out.println(out.toString());
-    }
-    
-    private void processSet(String input){
-        if (input.endsWith("date") || input.endsWith("dateformat")){
-            getDateFormat(); 
-        } else if (input.endsWith("language")){
-            getLanguage();
-        } else if (input.endsWith("preprocessor")){
-            getPreprocessor();
-        } else if (input.endsWith("corpus") || input.endsWith("referencecorpus")){
-            getReferenceCorpus();
-            setupNllr();
-        } else if (input.endsWith("partition") || input.endsWith("size")){
-            getTimePartitionSize();
-            processTimePartitions();
-        }
     }
 }
