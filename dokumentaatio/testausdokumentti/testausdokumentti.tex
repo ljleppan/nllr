@@ -30,8 +30,14 @@
 
 Ohjelmalle on luotu kattavat JUnit testit, jotka kattavat lähes kaikki tavalliset (ei-rajapinta) luokat. Testejä on arvioitu jatkuvasti erilaisia metriikoita (Kts. alla) hyväksikäyttäen ja niitä on pyritty parantamaan aktiivisesti mahdollisimman hyvän rivi-, polku- ja mutaatiokattavuuden saavuttamiseksi.
 
+Algoritmien osalta algoritmeille on luotu käsin syötteet, joiden oikeelliset tulokset on laskettu muilla menetelmin. Näiden toisin menetelmin hankittujen tulosten vertaaminen algoritmien tuottamiin tuloksiin sopivan pienellä $\epsilon$-arvolla ($\epsilon = 0.00000001$)  on merkittävin osa testeistä.
+
+Tietorakenteiden testauksessa on keskitytty kahteen päähaaraan: ulkoisen toiminnallisuuden oikeellisuus sekä sisäisen toiminnallisuuden oikeellisuus. Ulkoisesta toiminnallisuudesta on testattu, että kaikki tietorakenteiden operaatiota kuten \textit{add}, \textit{remove}, \textit{get} ja niin edelleen tuottavat halutun tuloksen. 
+
+Sisäisestä toiminnallisuudesta on tarkasteltu erityisesti \textit{HashMap} ja \textit{ArrayList} -tietorakenteiden taustalla olevien taulukoiden koon muuttamista. \textit{HashSet}-tietorakenteen testaaminen on jätetty vähemmälle sen luonteen takia: toteutus on käytännössä pelkkä naamioitu \textit{HashMap}, joten käytännössä samojen toimintojen tarkistaminen useaan otteeseen koettiin epämielekkääksi ajankäytöksi.
+
 \subsection{Metriikat}
-Projektin testien arviointiin on käytetty PIT:iä ja Coberturaa. Alla on esitetty PIT-testikattavuus 17.02.2014 klo 21:30. 
+Projektin testien arviointiin on käytetty PIT:iä ja Coberturaa. Alla on esitetty PIT-testikattavuus 24.02.2014 klo 10:15. 
 
 Cobertura-testikattavuuteen voi tutustua seuraavassa osoitteessa: https://coveralls.io/r/ljleppan/nllr?branch=master
 
@@ -43,7 +49,7 @@ Luokan TimeSpan testikattavuus on muiden luokkien testien sivuvaikutusta, sille 
 loez nllr				&	0\%	 	& 0/14		& 0\%	& 0/8 	\\
 \hspace{10 mm}Main 		&	0\%	 	& 0/14		& 0\%	& 0/8 	\\
 \hline
-loez.nllr.algorithm	&	100\% 	& 89/89 		& 90\%	& 56/62 	\\
+loez.nllr.algorithm	&	100\% 	& 84/84 		& 90\%	& 53/59 	\\
 \hspace{10 mm}Argmax			&	100\%	& 43/43		& 84\%	& 31/37 \\
 \hspace{10 mm}Nllr			&	100\%	& 26/26		& 100\% 	& 13/13 \\
 \hspace{10 mm}Tfidf			&	100\%	& 15/15		& 100\%	& 9/9 \\ 
@@ -53,10 +59,10 @@ loez.nllr.datastructure&	100\%	& 247/248	& 91\%	& 161/177 \\
 \hspace{10 mm}HashMap		&	99\%		&	128/129	& 86\%	&	70/81 \\
 \hspace{10 mm}HashSet		&	100\%	&	46/46	& 97\%	&	31/32 \\
 \hline
-loez.nllr.domain & 88\%	&	126/143 	& 	71\%		&	73/103 \\
-\hspace{10 mm}Corpus	&	99\%	&	74/75	&	96\%		&	47/49 \\
+loez.nllr.domain & 99\%	&	156/158 	& 	71\%		&	105/114 \\
+\hspace{10 mm}Corpus	&	99\%	&	76/77	&	96\%		&	49/51 \\
 \hspace{10 mm}Document	&	97\%	&	32/33	&	77\%		&	17/22 \\
-\hspace{10 mm}TimeSpan	&	100\%	&	48/48	&	98\%		&	40/41 \\
+\hspace{10 mm}TimeSpan	&	100\%	&	48/48	&	95\%		&	39/41 \\
 \hline
 loez.nllr.preprocessor & 96\% & 49/51 & 88\% & 15/17 \\
 \hspace{10 mm}SimplePreprocessor & 100\% & 10/10 & 100\% & 2/2 \\
@@ -77,6 +83,6 @@ loez.nllr.userinterface & 73\% & 142/195 & 50\% & 51/103 \\
 \end{tabular}
 
 \section{Manuaalinen testaus}
-Käyttöliittymän testaus on suoritettu pääosin käsin. Laajaa ja kattavaa testausta ei ole tehty, sillä käyttöliittymä ei ole osa projektin ydinaluetta. Kaikki tavallisen käytön yhteydessä löydetyt bugit on kuitenkin korjattu ja käyttöliittymän hiominen on eräs tämänhetkisiä prioriteetteja.
+Käyttöliittymän testaus on suoritettu pääosin käsin. Laajaa ja kattavaa testausta ei ole tehty, sillä käyttöliittymä ei ole osa projektin ydinaluetta. Kaikki tavallisen käytön yhteydessä löydetyt bugit on kuitenkin korjattu. On kuitenkin varsin mahdollista, että käyttöliittymään on jäänyt rajatapauksia, joissa toiminta ei ole toivottavaa.
 
 \end{document}
